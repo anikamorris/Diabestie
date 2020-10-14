@@ -21,7 +21,7 @@ class StackViewWithLabelAndTextField: UIStackView {
         self.label = label
         self.textField = textField
         super.init(frame: frame)
-        self.layer.cornerRadius = 5
+        self.layer.cornerRadius = 8
         self.clipsToBounds = true
         self.axis = .horizontal
         self.distribution = .fill

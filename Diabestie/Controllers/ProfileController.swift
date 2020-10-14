@@ -21,7 +21,7 @@ class ProfileController: UIViewController {
         let label = UILabel()
         label.textColor = .darkGray
         label.textAlignment = .center
-        label.font = UIFont(name: "Futura", size: 24.0)
+        label.font = UIFont(name: "Futura", size: 30.0)
         return label
     }()
     let isfLabel: UILabel = {
@@ -90,7 +90,7 @@ class ProfileController: UIViewController {
         helloLabel.text = "Hi, \(name)"
         view.addSubview(helloLabel)
         helloLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(30)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.7)
             make.height.equalTo(60)
@@ -102,23 +102,23 @@ class ProfileController: UIViewController {
         containerStackView.snp.makeConstraints { (make) in
             make.top.equalTo(helloLabel.snp_bottomMargin).offset(30)
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.8)
+            make.width.equalToSuperview().multipliedBy(0.85)
             make.height.equalToSuperview().multipliedBy(0.35)
         }
         containerStackView.addArrangedSubview(isfStackView)
         isfStackView.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.25)
+            make.height.equalToSuperview().multipliedBy(0.275)
         }
         containerStackView.addArrangedSubview(targetBGStackView)
         targetBGStackView.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.25)
+            make.height.equalToSuperview().multipliedBy(0.275)
         }
         containerStackView.addArrangedSubview(insulinDurationStackView)
         insulinDurationStackView.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.25)
+            make.height.equalToSuperview().multipliedBy(0.275)
         }
     }
 }
