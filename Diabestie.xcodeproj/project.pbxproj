@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -48,7 +48,6 @@
 				91E991E95A4DC180C9DEAEC2 /* Pods-Diabestie.debug.xcconfig */,
 				99AC9C144339E417CCD8D41B /* Pods-Diabestie.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -83,13 +82,69 @@
 			children = (
 				CF4AC95824D3941200275A88 /* AppDelegate.swift */,
 				CF4AC95A24D3941200275A88 /* SceneDelegate.swift */,
-				CF4AC95C24D3941200275A88 /* ViewController.swift */,
-				CF4AC95E24D3941200275A88 /* Main.storyboard */,
-				CF4AC96124D3941800275A88 /* Assets.xcassets */,
-				CF4AC96324D3941800275A88 /* LaunchScreen.storyboard */,
+				CF86213C25367B3D00427FB7 /* Models */,
+				CF86213B25367B3800427FB7 /* Views */,
+				CF86213A25367B3200427FB7 /* Controllers */,
+				CF86213925367B2B00427FB7 /* Coordinators */,
+				CF86213825367B2400427FB7 /* Extensions */,
+				CF86213725367B1800427FB7 /* Resources */,
+				CF86213625367B0700427FB7 /* Supporting Files */,
 				CF4AC96624D3941800275A88 /* Info.plist */,
 			);
 			path = Diabestie;
+			sourceTree = "<group>";
+		};
+		CF86213625367B0700427FB7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CF4AC95E24D3941200275A88 /* Main.storyboard */,
+				CF4AC96324D3941800275A88 /* LaunchScreen.storyboard */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CF86213725367B1800427FB7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CF4AC96124D3941800275A88 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		CF86213825367B2400427FB7 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		CF86213925367B2B00427FB7 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		CF86213A25367B3200427FB7 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				CF4AC95C24D3941200275A88 /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		CF86213B25367B3800427FB7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CF86213C25367B3D00427FB7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
