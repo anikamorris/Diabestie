@@ -21,33 +21,33 @@ class ProfileController: UIViewController {
         let label = UILabel()
         label.textColor = .darkGray
         label.textAlignment = .center
-        label.font = UIFont(name: "Futura", size: 30.0)
+        label.font = UIFont(name: Constants.fontName, size: 30.0)
         return label
     }()
     let isfLabel: UILabel = {
         let label = UILabel()
         label.text = "ISF"
         label.textColor = .darkGray
-        label.font = UIFont(name: "Futura", size: 20.0)
+        label.font = UIFont(name: Constants.fontName, size: 20.0)
         return label
     }()
     let targetBGLabel: UILabel = {
         let label = UILabel()
         label.text = "Target BG"
         label.textColor = .darkGray
-        label.font = UIFont(name: "Futura", size: 20.0)
+        label.font = UIFont(name: Constants.fontName, size: 20.0)
         return label
     }()
     let insulinDurationLabel: UILabel = {
         let label = UILabel()
         label.text = "Insulin duration"
         label.textColor = .darkGray
-        label.font = UIFont(name: "Futura", size: 20.0)
+        label.font = UIFont(name: Constants.fontName, size: 20.0)
         return label
     }()
     let isfTextField: UnderlinedTextField = {
         let textField = UnderlinedTextField()
-        textField.font = UIFont(name: "Futura", size: 20.0)
+        textField.font = UIFont(name: Constants.fontName, size: 20.0)
         textField.textColor = .darkGray
         textField.textAlignment = .center
         textField.setUnderlineColor(color: .secondaryColor)
@@ -55,7 +55,7 @@ class ProfileController: UIViewController {
     }()
     let targetBGTextField: UnderlinedTextField = {
         let textField = UnderlinedTextField()
-        textField.font = UIFont(name: "Futura", size: 20.0)
+        textField.font = UIFont(name: Constants.fontName, size: 20.0)
         textField.textColor = .darkGray
         textField.textAlignment = .center
         textField.setUnderlineColor(color: .secondaryColor)
@@ -63,7 +63,7 @@ class ProfileController: UIViewController {
     }()
     let insulinDurationTextField: UnderlinedTextField = {
         let textField = UnderlinedTextField()
-        textField.font = UIFont(name: "Futura", size: 20.0)
+        textField.font = UIFont(name: Constants.fontName, size: 20.0)
         textField.textColor = .darkGray
         textField.textAlignment = .center
         textField.placeholder = "Hours"
@@ -77,10 +77,25 @@ class ProfileController: UIViewController {
         stackView.alignment = .center
         return stackView
     }()
+    let carbRatioLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Carb Ratios"
+        label.textColor = .darkGray
+        label.textAlignment = .center
+        label.font = UIFont(name: Constants.fontName, size: 24.0)
+        return label
+    }()
+    let carbRatioTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(CarbRatioCell.self, forCellReuseIdentifier: CarbRatioCell.identifier)
+        return tableView
+    }()
     
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        carbRatioTableView.dataSource = self
+        carbRatioTableView.delegate = self
         setUpViews()
     }
     
@@ -120,5 +135,39 @@ class ProfileController: UIViewController {
             make.width.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.275)
         }
+        view.addSubview(carbRatioLabel)
+        carbRatioLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(containerStackView.snp_bottomMargin).offset(15)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalTo(40)
+        }
+        view.addSubview(carbRatioTableView)
+        carbRatioTableView.snp.makeConstraints { (make) in
+            make.width.equalToSuperview().multipliedBy(0.85)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(carbRatioLabel.snp_bottomMargin).offset(15)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
+        }
+    }
+}
+
+extension ProfileController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+}
+
+extension ProfileController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: CarbRatioCell.identifier) as! CarbRatioCell
+        cell.time = "12am-2am"
+        cell.ratio = "4:1"
+        cell.setLabelText()
+        return cell
     }
 }
