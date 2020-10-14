@@ -7,7 +7,11 @@ target 'Diabestie' do
 
   # pod for constraints
   pod 'SnapKit', '~> 5.0.1'
+
   # pod for time picker 
   pod 'HGCircularSlider'
+
+  # pod for question animation
+  pod 'Motion'
 
 end
