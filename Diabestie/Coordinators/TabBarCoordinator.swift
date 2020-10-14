@@ -24,9 +24,11 @@ class TabBarCoordinator: NSObject, Coordinator, UITabBarControllerDelegate {
     func start() {
         let calculatorController = CalculatorController()
         calculatorController.coordinator = self
+        calculatorController.tabBarItem = UITabBarItem(title: "Calculate", image: UIImage(systemName: "number.circle"), selectedImage: UIImage(systemName:  "number.circle.fill"))
         
         let profileController = ProfileController()
         profileController.coordinator = self
+        profileController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.circle"), selectedImage: UIImage(systemName:  "person.circle.fill"))
         
         tabBarController.viewControllers = [calculatorController, profileController]
         tabBarController.selectedViewController = profileController
