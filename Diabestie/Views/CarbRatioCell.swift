@@ -20,16 +20,23 @@ class CarbRatioCell: UITableViewCell {
     // MARK: Views
     let timeLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .darkGray
+        label.textColor = .white
         label.font = UIFont(name: Constants.fontName, size: 18.0)
         return label
     }()
     let ratioLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .darkGray
+        label.textColor = .white
         label.textAlignment = .right
         label.font = UIFont(name: Constants.fontName, size: 18.0)
         return label
+    }()
+    let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .secondaryColor
+        view.layer.cornerRadius = 5
+        view.clipsToBounds = true
+        return view
     }()
     
     // MARK: Init
@@ -44,13 +51,20 @@ class CarbRatioCell: UITableViewCell {
     
     // MARK: Methods
     fileprivate func setUpViews() {
-        self.contentView.addSubview(timeLabel)
+        self.backgroundColor = .backgroundColor
+        self.contentView.addSubview(containerView)
+        containerView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-5)
+            make.width.equalToSuperview()
+        }
+        containerView.addSubview(timeLabel)
         timeLabel.snp.makeConstraints { (make) in
             make.top.bottom.equalToSuperview()
             make.left.equalToSuperview().offset(15)
             make.width.equalToSuperview().multipliedBy(0.4)
         }
-        self.contentView.addSubview(ratioLabel)
+        containerView.addSubview(ratioLabel)
         ratioLabel.snp.makeConstraints { (make) in
             make.top.bottom.equalToSuperview()
             make.right.equalToSuperview().offset(-15)

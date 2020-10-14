@@ -87,6 +87,7 @@ class ProfileController: UIViewController {
     }()
     let carbRatioTableView: UITableView = {
         let tableView = UITableView()
+        tableView.backgroundColor = .backgroundColor
         tableView.register(CarbRatioCell.self, forCellReuseIdentifier: CarbRatioCell.identifier)
         return tableView
     }()
