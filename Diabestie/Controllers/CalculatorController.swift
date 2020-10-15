@@ -61,6 +61,29 @@ class CalculatorController: UIViewController {
         control.setTitleTextAttributes(attributes, for: .normal)
         return control
     }()
+    let nextButton: UIButton = {
+        let button = UIButton()
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .large)
+        let rightArrow = UIImage(systemName: "arrow.right", withConfiguration: largeConfig)
+        button.setImage(rightArrow, for: .normal)
+        button.tintColor = .primaryColor
+        return button
+    }()
+    let backButton: UIButton = {
+        let button = UIButton()
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .large)
+        let leftArrow = UIImage(systemName: "arrow.left", withConfiguration: largeConfig)
+        button.setImage(leftArrow, for: .normal)
+        button.tintColor = .primaryColor
+        return button
+    }()
+    let buttonStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .center
+        return stackView
+    }()
     
     // MARK: Lifecycle
     override func viewDidLoad() {
@@ -85,15 +108,26 @@ class CalculatorController: UIViewController {
         }
         anyCorrectionsView.addSubview(anyCorrectionsLabel)
         anyCorrectionsLabel.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
-            make.height.width.equalToSuperview()
+            make.center.height.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.8)
         }
         view.addSubview(segmentedControl)
         segmentedControl.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.top.equalTo(questionContainer.snp_bottomMargin).offset(60)
-            make.height.equalToSuperview().multipliedBy(0.05)
+            make.top.equalTo(questionContainer.snp_bottomMargin).offset(30)
+            make.height.equalToSuperview().multipliedBy(0.07)
             make.width.equalToSuperview().multipliedBy(0.7)
         }
+        view.addSubview(buttonStackView)
+        buttonStackView.snp.makeConstraints { (make) in
+            make.top.equalTo(segmentedControl.snp_bottomMargin).offset(view.bounds.height * 0.1)
+            make.left.equalToSuperview().offset(30)
+            make.right.equalToSuperview().offset(-30)
+            make.height.equalToSuperview().multipliedBy(0.1)
+        }
+        buttonStackView.addArrangedSubview(backButton)
+        buttonStackView.addArrangedSubview(nextButton)
+        nextButton.isHidden = true
+        backButton.isHidden = true
     }
 }
