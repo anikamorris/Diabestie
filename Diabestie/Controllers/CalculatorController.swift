@@ -17,6 +17,12 @@ class CalculatorController: UIViewController {
     var coordinator: TabBarCoordinator!
     let question = Question(insulinDuration: 3)
     var allQuestions: [String]!
+    var answer: Answer = Answer(anyCorrections: false,
+                        eatingNow: false,
+                        currentBG: 0,
+                        numCarbs: 0,
+                        hoursSince: 0,
+                        lastCorrectionUnits: 0)
     var currentIndex: Int = 0
     var questionViews: [QuestionView]!
     var questionLabels: [UILabel]!
@@ -161,6 +167,17 @@ class CalculatorController: UIViewController {
     
     @objc func selectedSegmentedDidChange() {
         nextButton.isHidden = false
+        var response: Bool
+        if segmentedControl.selectedSegmentIndex == 0 {
+            response = true
+        } else {
+            response = false
+        }
+        if currentIndex == 0 && segmentedControl.selectedSegmentIndex != UISegmentedControl.noSegment {
+            answer.anyCorrections = response
+        } else if segmentedControl.selectedSegmentIndex != UISegmentedControl.noSegment {
+            answer.eatingNow = response
+        }
     }
     
     @objc func nextButtonTapped() {
@@ -210,8 +227,8 @@ extension CalculatorController {
         let yPoint = CGFloat(0) - animatedView.bounds.height/2 + 30 + safeAreaTop
         let yDistance = animatedView.bounds.height
         
-        animatedView.animate([.delay(0.2),
-                              .duration(0.2),
+        animatedView.animate([.delay(0.1),
+                              .duration(0.15),
                               .position(CGPoint(x: xPoint, y: yPoint)),
                               .timingFunction(.deceleration)
                             ], completion: {
@@ -230,8 +247,8 @@ extension CalculatorController {
         let yPoint = CGFloat(0) - animatedLabel.bounds.height/2
         let yDistance = animatedLabel.bounds.height
         
-        animatedLabel.animate([.delay(0.2),
-                              .duration(0.2),
+        animatedLabel.animate([.delay(0.1),
+                               .duration(0.15),
                               .position(CGPoint(x: xPoint, y: yPoint)),
                               .timingFunction(.deceleration)
                             ], completion: {

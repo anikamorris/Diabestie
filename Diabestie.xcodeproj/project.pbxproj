@@ -26,6 +26,7 @@
 		CF8621612537CFD000427FB7 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8621602537CFD000427FB7 /* Question.swift */; };
 		CF8621692537DEDA00427FB7 /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8621682537DED900427FB7 /* CalculatorView.swift */; };
 		CF86216C2538F5E700427FB7 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86216B2538F5E700427FB7 /* QuestionView.swift */; };
+		CF9C8CEB2539004F00128C21 /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9C8CEA2539004F00128C21 /* Answer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		CF8621602537CFD000427FB7 /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		CF8621682537DED900427FB7 /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
 		CF86216B2538F5E700427FB7 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
+		CF9C8CEA2539004F00128C21 /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				CF8621602537CFD000427FB7 /* Question.swift */,
+				CF9C8CEA2539004F00128C21 /* Answer.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				CF86214525367F8300427FB7 /* CalculatorController.swift in Sources */,
 				CF86214225367E2400427FB7 /* TabBarCoordinator.swift in Sources */,
 				CF86215E2537CD7A00427FB7 /* SetCarbRatiosController.swift in Sources */,
+				CF9C8CEB2539004F00128C21 /* Answer.swift in Sources */,
 				CF8621582537B45500427FB7 /* Constants.swift in Sources */,
 				CF8621692537DEDA00427FB7 /* CalculatorView.swift in Sources */,
 				CF8621612537CFD000427FB7 /* Question.swift in Sources */,
