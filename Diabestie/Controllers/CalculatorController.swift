@@ -9,12 +9,14 @@
 import Foundation
 import UIKit
 import SnapKit
+import Motion
 
 class CalculatorController: UIViewController {
     
     // MARK: Properties
     var coordinator: TabBarCoordinator!
-    let questions = Question(insulinDuration: 3)
+    let question = Question(insulinDuration: 3)
+    var allQuestions: [String]!
     
     // MARK: Views
     let questionContainer: UIView = {
@@ -90,13 +92,14 @@ class CalculatorController: UIViewController {
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        allQuestions = question.allQuestions()
         setUpInitialView()
     }
     
     // MARK: Methods
     func setUpInitialView() {
         view.backgroundColor = .backgroundColor
-        anyCorrectionsLabel.text = questions.anyCorrections
+        anyCorrectionsLabel.text = allQuestions[0]
         view.addSubview(questionContainer)
         questionContainer.snp.makeConstraints { (make) in
             make.top.left.right.equalToSuperview()
@@ -104,14 +107,21 @@ class CalculatorController: UIViewController {
         }
         questionContainer.addSubview(anyCorrectionsView)
         anyCorrectionsView.snp.makeConstraints { (make) in
-            make.top.left.equalTo(view.safeAreaLayoutGuide).offset(30)
-            make.right.equalToSuperview().offset(-30)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(30)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.85)
             make.height.equalToSuperview().multipliedBy(0.8)
         }
         anyCorrectionsView.addSubview(anyCorrectionsLabel)
         anyCorrectionsLabel.snp.makeConstraints { (make) in
             make.center.height.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.8)
+        }
+        questionContainer.addSubview(eatingNowView)
+        eatingNowView.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.85)
+            make.height.equalToSuperview().multipliedBy(0.8)
         }
         view.addSubview(segmentedControl)
         segmentedControl.snp.makeConstraints { (make) in
@@ -131,6 +141,29 @@ class CalculatorController: UIViewController {
         buttonStackView.addArrangedSubview(nextButton)
         nextButton.isHidden = true
         backButton.isHidden = true
+        eatingNowView.isHidden = true
+    }
+    
+    fileprivate func animateFadeOut(_ animatedView: UIView) {
+        animatedView.animate([.duration(0.2),
+                              .fadeOut,
+                              .background(color: .clear)
+                            ])
+    }
+    
+    fileprivate func animateDropIn(_ animatedView: UIView) {
+        let x = view.bounds.width * 0.5
+        animatedView.animate([.delay(0.2),
+                              .duration(0.01),
+                              .position(CGPoint(x: x, y: 0)),
+                              .timingFunction(.deceleration)
+                            ], completion: {
+                                animatedView.isHidden = false
+                                animatedView.animate([.duration(0.2),
+                                                     .translate(x: 0, y: -200, z: 1),
+                                                     .timingFunction(.deceleration)
+                                                    ])
+                            })
     }
     
     @objc func selectedSegmentedDidChange() {
@@ -138,13 +171,10 @@ class CalculatorController: UIViewController {
     }
     
     @objc func nextButtonTapped() {
-        anyCorrectionsLabel.isHidden = true
-        anyCorrectionsView.addSubview(eatingNowLabel)
-        eatingNowLabel.text = Question.eatingNow
-        eatingNowLabel.snp.makeConstraints { (make) in
-            make.center.height.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.8)
-        }
+        segmentedControl.selectedSegmentIndex = UISegmentedControl.noSegment
+        animateFadeOut(anyCorrectionsView)
+        animateFadeOut(anyCorrectionsLabel)
+        animateDropIn(eatingNowView)
         backButton.isHidden = false
     }
 }
