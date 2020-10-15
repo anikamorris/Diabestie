@@ -18,7 +18,7 @@ class CalculatorController: UIViewController {
     let question = Question(insulinDuration: 3)
     var allQuestions: [String]!
     var currentIndex: Int = 0
-    var questionViews: [UIView]!
+    var questionViews: [QuestionView]!
     var questionLabels: [UILabel]!
     
     // MARK: Views
@@ -27,51 +27,9 @@ class CalculatorController: UIViewController {
         view.backgroundColor = .backgroundColor
         return view
     }()
-    let anyCorrectionsView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 8
-        view.clipsToBounds = true
-        view.backgroundColor = .primaryColor
-        return view
-    }()
-    let eatingNowView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 8
-        view.clipsToBounds = true
-        view.backgroundColor = .primaryColor
-        return view
-    }()
-    let anyCorrectionsLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.font = UIFont(name: Constants.fontName, size: 30.0)
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        return label
-    }()
-    let eatingNowLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.font = UIFont(name: Constants.fontName, size: 30.0)
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        return label
-    }()
-    let currentBGView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 8
-        view.clipsToBounds = true
-        view.backgroundColor = .primaryColor
-        return view
-    }()
-    let currentBGLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.font = UIFont(name: Constants.fontName, size: 30.0)
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        return label
-    }()
+    let anyCorrectionsView = QuestionView(frame: .zero)
+    let eatingNowView = QuestionView(frame: .zero)
+    let currentBGView = QuestionView(frame: .zero)
     let segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["Yes", "No"])
         control.backgroundColor = UIColor(red: 1, green: 0.7411764706, blue: 0.6745098039, alpha: 1)
@@ -113,7 +71,7 @@ class CalculatorController: UIViewController {
         super.viewDidLoad()
         allQuestions = question.allQuestions()
         questionViews = [anyCorrectionsView, eatingNowView, currentBGView]
-        questionLabels = [anyCorrectionsLabel, eatingNowLabel, currentBGLabel]
+        questionLabels = [anyCorrectionsView.questionLabel, eatingNowView.questionLabel, currentBGView.questionLabel]
         setQuestionText()
         setUpInitialView()
     }
@@ -127,18 +85,13 @@ class CalculatorController: UIViewController {
             make.top.left.right.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.55)
         }
-        // constraints for anyCorrectionsView + label
+        // constraints for anyCorrectionsView
         questionContainer.addSubview(anyCorrectionsView)
         anyCorrectionsView.snp.makeConstraints { (make) in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(30)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.85)
             make.height.equalToSuperview().multipliedBy(0.8)
-        }
-        anyCorrectionsView.addSubview(anyCorrectionsLabel)
-        anyCorrectionsLabel.snp.makeConstraints { (make) in
-            make.center.height.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.8)
         }
         // constraints for eatingNowView + label
         questionContainer.addSubview(eatingNowView)
@@ -147,22 +100,12 @@ class CalculatorController: UIViewController {
             make.width.equalToSuperview().multipliedBy(0.85)
             make.height.equalToSuperview().multipliedBy(0.8)
         }
-        eatingNowView.addSubview(eatingNowLabel)
-        eatingNowLabel.snp.makeConstraints { (make) in
-            make.center.height.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.8)
-        }
         // constraints for currentBGView + label
         questionContainer.addSubview(currentBGView)
         currentBGView.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.85)
             make.height.equalToSuperview().multipliedBy(0.8)
-        }
-        currentBGView.addSubview(currentBGLabel)
-        currentBGLabel.snp.makeConstraints { (make) in
-            make.center.height.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.8)
         }
         view.addSubview(segmentedControl)
         segmentedControl.snp.makeConstraints { (make) in
