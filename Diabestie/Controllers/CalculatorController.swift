@@ -151,16 +151,23 @@ class CalculatorController: UIViewController {
                             ])
     }
     
-    fileprivate func animateDropIn(_ animatedView: UIView) {
-        let x = view.bounds.width * 0.5
+    fileprivate func animateQuestionViewDropIn(_ animatedView: UIView) {
+        let windows = UIApplication.shared.windows
+        let safeAreaTop = windows[0].safeAreaInsets.top
+        let xPoint = view.bounds.width * 0.5
+        let yPoint = CGFloat(0) - animatedView.bounds.height/2 + 30 + safeAreaTop
+        let yDistance = animatedView.bounds.height
+        
         animatedView.animate([.delay(0.2),
-                              .duration(0.01),
-                              .position(CGPoint(x: x, y: 0)),
+                              .duration(0.2),
+                              .position(CGPoint(x: xPoint, y: yPoint)),
                               .timingFunction(.deceleration)
                             ], completion: {
                                 animatedView.isHidden = false
-                                animatedView.animate([.duration(0.2),
-                                                     .translate(x: 0, y: -200, z: 1),
+                                animatedView.animate([.duration(2),
+                                                      .translate(x: 0,
+                                                                 y: yDistance,
+                                                                 z: 1),
                                                      .timingFunction(.deceleration)
                                                     ])
                             })
@@ -174,7 +181,9 @@ class CalculatorController: UIViewController {
         segmentedControl.selectedSegmentIndex = UISegmentedControl.noSegment
         animateFadeOut(anyCorrectionsView)
         animateFadeOut(anyCorrectionsLabel)
-        animateDropIn(eatingNowView)
+        animateQuestionViewDropIn(eatingNowView)
         backButton.isHidden = false
+        anyCorrectionsView.isHidden = true
+        anyCorrectionsLabel.isHidden = true
     }
 }
