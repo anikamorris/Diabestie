@@ -40,6 +40,17 @@ class CalculatorController: UIViewController {
         control.addTarget(self, action: #selector(selectedSegmentedDidChange), for: .valueChanged)
         return control
     }()
+    let numberInputTextField: UnderlinedTextField = {
+        let textField = UnderlinedTextField()
+        textField.setUnderlineColor(color: .alertColor)
+        textField.font = UIFont(name: Constants.fontName, size: 30.0)
+        textField.textColor = .darkGray
+        textField.textAlignment = .center
+//        textField.backgroundColor = .white
+//        textField.layer.cornerRadius = 5
+//        textField.clipsToBounds = true
+        return textField
+    }()
     let nextButton: UIButton = {
         let button = UIButton()
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .large)
@@ -114,6 +125,13 @@ class CalculatorController: UIViewController {
             make.height.equalToSuperview().multipliedBy(0.07)
             make.width.equalToSuperview().multipliedBy(0.7)
         }
+        view.addSubview(numberInputTextField)
+        numberInputTextField.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(questionContainer.snp_bottomMargin).offset(30)
+            make.height.equalToSuperview().multipliedBy(0.07)
+            make.width.equalToSuperview().multipliedBy(0.4)
+        }
         view.addSubview(buttonStackView)
         buttonStackView.snp.makeConstraints { (make) in
             make.top.equalTo(segmentedControl.snp_bottomMargin).offset(view.bounds.height * 0.1)
@@ -123,12 +141,13 @@ class CalculatorController: UIViewController {
         }
         buttonStackView.addArrangedSubview(backButton)
         buttonStackView.addArrangedSubview(nextButton)
-        nextButton.isHidden = true
-        backButton.isHidden = true
         hideAllViewsExceptFirst()
     }
     
     fileprivate func hideAllViewsExceptFirst() {
+        nextButton.isHidden = true
+        backButton.isHidden = true
+        numberInputTextField.isHidden = true
         for i in 1..<questionViews.count {
             questionViews[i].isHidden = true
         }
@@ -152,6 +171,13 @@ class CalculatorController: UIViewController {
         animateQuestionViewDropIn(questionViews[currentIndex])
         animateQuestionLabelDropIn(questionLabels[currentIndex])
         backButton.isHidden = false
+        if currentIndex < 2 {
+            segmentedControl.isHidden = false
+            numberInputTextField.isHidden = true
+        } else {
+            segmentedControl.isHidden = true
+            numberInputTextField.isHidden = false
+        }
     }
     
     @objc func backButtonTapped() {
@@ -159,6 +185,12 @@ class CalculatorController: UIViewController {
         currentIndex -= 1
         animateFadeIn(questionViews[currentIndex])
         animateFadeIn(questionLabels[currentIndex])
+        if currentIndex == 0 {
+            backButton.isHidden = true
+        } else if currentIndex < 2 {
+            segmentedControl.isHidden = false
+            numberInputTextField.isHidden = true
+        }
     }
 }
 
