@@ -97,6 +97,7 @@ class CalculatorController: UIViewController {
         let leftArrow = UIImage(systemName: "arrow.left", withConfiguration: largeConfig)
         button.setImage(leftArrow, for: .normal)
         button.tintColor = .primaryColor
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
     let buttonStackView: UIStackView = {
@@ -181,16 +182,45 @@ class CalculatorController: UIViewController {
         buttonStackView.addArrangedSubview(nextButton)
         nextButton.isHidden = true
         backButton.isHidden = true
-        eatingNowView.isHidden = true
-        currentBGView.isHidden = true
+        hideAllViewsExceptFirst()
+    }
+    
+    fileprivate func hideAllViewsExceptFirst() {
+        for i in 1..<questionViews.count {
+            questionViews[i].isHidden = true
+        }
     }
     
     fileprivate func setQuestionText() {
-        for i in 0..<questionViews.count {
+        for i in 0..<questionLabels.count {
             questionLabels[i].text = allQuestions[i]
         }
     }
     
+    @objc func selectedSegmentedDidChange() {
+        nextButton.isHidden = false
+    }
+    
+    @objc func nextButtonTapped() {
+        segmentedControl.selectedSegmentIndex = UISegmentedControl.noSegment
+        animateFadeOut(questionViews[currentIndex])
+        animateFadeOut(questionLabels[currentIndex])
+        currentIndex += 1
+        animateQuestionViewDropIn(questionViews[currentIndex])
+        animateQuestionLabelDropIn(questionLabels[currentIndex])
+        backButton.isHidden = false
+    }
+    
+    @objc func backButtonTapped() {
+        animateQuestionAccelerateOut(questionViews[currentIndex])
+        currentIndex -= 1
+        animateFadeIn(questionViews[currentIndex])
+        animateFadeIn(questionLabels[currentIndex])
+    }
+}
+
+// MARK: Animations
+extension CalculatorController {
     fileprivate func animateFadeOut(_ animatedView: UIView) {
         animatedView.animate([.duration(0.2),
                               .fadeOut,
@@ -240,17 +270,19 @@ class CalculatorController: UIViewController {
                             })
     }
     
-    @objc func selectedSegmentedDidChange() {
-        nextButton.isHidden = false
+    fileprivate func animateFadeIn(_ animatedView: UIView) {
+        animatedView.animate([.delay(0.2),
+                              .duration(0.4),
+                              .fadeIn,
+                              .background(color: .primaryColor)
+                            ])
     }
     
-    @objc func nextButtonTapped() {
-        segmentedControl.selectedSegmentIndex = UISegmentedControl.noSegment
-        animateFadeOut(questionViews[currentIndex])
-        animateFadeOut(questionLabels[currentIndex])
-        currentIndex += 1
-        animateQuestionViewDropIn(questionViews[currentIndex])
-        animateQuestionLabelDropIn(questionLabels[currentIndex])
-        backButton.isHidden = false
+    fileprivate func animateQuestionAccelerateOut(_ animatedView: UIView) {
+        let yDistance = animatedView.bounds.height
+        animatedView.animate([.duration(0.4),
+                              .translate(x: 0, y: -yDistance),
+                              .timingFunction(.acceleration)
+                            ])
     }
 }
