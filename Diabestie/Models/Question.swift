@@ -24,4 +24,12 @@ struct Question {
     func allQuestions() -> [String] {
         return [anyCorrections, eatingNow, currentBG, howManyCarbs, lastCorrectionHoursSince, lastCorrectionUnits]
     }
+    
+    func yesNoQuestions() -> [String] {
+        return [anyCorrections, eatingNow, currentBG, lastCorrectionHoursSince, lastCorrectionUnits]
+    }
+    
+    func noYesQuestions() -> [String] {
+        return [anyCorrections, eatingNow, currentBG, howManyCarbs]
+    }
 }

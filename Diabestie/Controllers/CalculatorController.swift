@@ -36,6 +36,9 @@ class CalculatorController: UIViewController {
     let anyCorrectionsView = QuestionView(frame: .zero)
     let eatingNowView = QuestionView(frame: .zero)
     let currentBGView = QuestionView(frame: .zero)
+    let numCarbsView = QuestionView(frame: .zero)
+    let hoursSinceView = QuestionView(frame: .zero)
+    let lastCorrectionUnitsView = QuestionView(frame: .zero)
     let segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["Yes", "No"])
         control.backgroundColor = UIColor(red: 1, green: 0.7411764706, blue: 0.6745098039, alpha: 1)
@@ -106,24 +109,23 @@ class CalculatorController: UIViewController {
         questionContainer.addSubview(anyCorrectionsView)
         anyCorrectionsView.snp.makeConstraints { (make) in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(30)
-            make.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.85)
-            make.height.equalToSuperview().multipliedBy(0.8)
         }
-        // constraints for eatingNowView + label
+        setQuestionViewConstraints(view: anyCorrectionsView)
+        // constraints for eatingNowView
         questionContainer.addSubview(eatingNowView)
-        eatingNowView.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.85)
-            make.height.equalToSuperview().multipliedBy(0.8)
-        }
-        // constraints for currentBGView + label
+        setQuestionViewConstraints(view: eatingNowView)
+        // constraints for currentBGView
         questionContainer.addSubview(currentBGView)
-        currentBGView.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.85)
-            make.height.equalToSuperview().multipliedBy(0.8)
-        }
+        setQuestionViewConstraints(view: currentBGView)
+        // constraints for numCarbsView
+        questionContainer.addSubview(numCarbsView)
+        setQuestionViewConstraints(view: numCarbsView)
+        // constraints for hoursSinceView
+        questionContainer.addSubview(hoursSinceView)
+        setQuestionViewConstraints(view: hoursSinceView)
+        // constraints for lastCorrectionUnitsView
+        questionContainer.addSubview(lastCorrectionUnitsView)
+        setQuestionViewConstraints(view: lastCorrectionUnitsView)
         view.addSubview(segmentedControl)
         segmentedControl.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
@@ -150,18 +152,85 @@ class CalculatorController: UIViewController {
         hideAllViewsExceptFirst()
     }
     
+    fileprivate func setQuestionViewConstraints(view: QuestionView) {
+        view.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.85)
+            make.height.equalToSuperview().multipliedBy(0.8)
+        }
+    }
+    
     fileprivate func hideAllViewsExceptFirst() {
         nextButton.isHidden = true
         backButton.isHidden = true
         numberInputTextField.isHidden = true
-        for i in 1..<questionViews.count {
-            questionViews[i].isHidden = true
-        }
+        eatingNowView.isHidden = true
+        currentBGView.isHidden = true
+        numCarbsView.isHidden = true
+        hoursSinceView.isHidden = true
+        lastCorrectionUnitsView.isHidden = true
     }
     
     fileprivate func setQuestionText() {
-        for i in 0..<questionLabels.count {
-            questionLabels[i].text = allQuestions[i]
+        let lenQuestionLabels = questionLabels.count
+        for i in 0..<lenQuestionLabels {
+            if lenQuestionLabels == 4 {
+                questionLabels[i].text = question.noYesQuestions()[i]
+            } else if lenQuestionLabels == 5 {
+                questionLabels[i].text = question.yesNoQuestions()[i]
+            } else {
+                questionLabels[i].text = allQuestions[i]
+            }
+        }
+    }
+    
+    fileprivate func setQuestionViewsForAnswer() {
+        if answer.anyCorrections && answer.eatingNow { // answered yes to first 2 questions
+            questionViews.append(contentsOf: [numCarbsView,
+                                              hoursSinceView,
+                                              lastCorrectionUnitsView])
+            questionLabels.append(contentsOf: [numCarbsView.questionLabel,
+                                               hoursSinceView.questionLabel,
+                                               lastCorrectionUnitsView.questionLabel])
+        } else if answer.anyCorrections { // answered yes to only the first question
+            questionViews.append(contentsOf: [hoursSinceView, lastCorrectionUnitsView])
+            questionLabels.append(contentsOf: [hoursSinceView.questionLabel,
+                                               lastCorrectionUnitsView.questionLabel])
+        } else if answer.eatingNow { // answered yes to only the second question
+            questionViews.append(contentsOf: [numCarbsView])
+            questionLabels.append(contentsOf: [numCarbsView.questionLabel])
+        }
+        // if answered no to both questions, no more views are needed
+    }
+    
+    fileprivate func saveNumber() {
+        let response = numberInputTextField.text
+        if currentIndex == 4 {
+            guard let hoursSince = Double(response!) else {
+                print("couldn't turn hoursSince into a double")
+                return
+            }
+            answer.hoursSince = hoursSince
+        } else {
+            if currentIndex == 2 {
+                guard let currentBG = Int(response!) else {
+                    print("couldn't turn currentBG into an int")
+                    return
+                }
+                answer.currentBG = currentBG
+            } else if currentIndex == 3 {
+                guard let numCarbs = Int(response!) else {
+                    print("couldn't turn numCarbs into an int")
+                    return
+                }
+                answer.numCarbs = numCarbs
+            } else {
+                guard let lastCorrectionUnits = Int(response!) else {
+                    print("couldn't turn lastCorrectionUnits into an int")
+                    return
+                }
+                answer.lastCorrectionUnits = lastCorrectionUnits
+            }
         }
     }
     
@@ -188,7 +257,12 @@ class CalculatorController: UIViewController {
         animateQuestionViewDropIn(questionViews[currentIndex])
         animateQuestionLabelDropIn(questionLabels[currentIndex])
         backButton.isHidden = false
-        if currentIndex < 2 {
+        if currentIndex == 2 {
+            setQuestionViewsForAnswer()
+            setQuestionText()
+            segmentedControl.isHidden = true
+            numberInputTextField.isHidden = false
+        } else if currentIndex < 2 {
             segmentedControl.isHidden = false
             numberInputTextField.isHidden = true
         } else {
