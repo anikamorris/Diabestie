@@ -17,6 +17,11 @@ class CalculatorController: UIViewController {
     let questions = Question(insulinDuration: 3)
     
     // MARK: Views
+    let questionContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = .backgroundColor
+        return view
+    }()
     let anyCorrectionsView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 8
@@ -33,7 +38,7 @@ class CalculatorController: UIViewController {
     }()
     let anyCorrectionsLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .darkGray
+        label.textColor = .white
         label.font = UIFont(name: Constants.fontName, size: 30.0)
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -41,19 +46,21 @@ class CalculatorController: UIViewController {
     }()
     let eatingNowLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .darkGray
+        label.textColor = .white
         label.font = UIFont(name: Constants.fontName, size: 30.0)
         label.numberOfLines = 0
         label.textAlignment = .center
         return label
     }()
-//    let segmentedControl: UISegmentedControl = {
-//        let control = UISegmentedControl()
-//        control.setTitle("Yes", forSegmentAt: 0)
-//        control.setTitle("No", forSegmentAt: 1)
-//        control.tintColor = .secondaryColor
-//        return control
-//    }()
+    let segmentedControl: UISegmentedControl = {
+        let control = UISegmentedControl(items: ["Yes", "No"])
+        control.backgroundColor = UIColor(red: 1, green: 0.7411764706, blue: 0.6745098039, alpha: 1)
+        control.selectedSegmentTintColor = .alertColor
+        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.white,
+                          NSAttributedString.Key.font: UIFont(name: Constants.fontName, size: 20.0)!]
+        control.setTitleTextAttributes(attributes, for: .normal)
+        return control
+    }()
     
     // MARK: Lifecycle
     override func viewDidLoad() {
@@ -65,22 +72,28 @@ class CalculatorController: UIViewController {
     
     // MARK: Methods
     func setUpInitialView() {
-        view.addSubview(anyCorrectionsView)
+        view.addSubview(questionContainer)
+        questionContainer.snp.makeConstraints { (make) in
+            make.top.left.right.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.55)
+        }
+        questionContainer.addSubview(anyCorrectionsView)
         anyCorrectionsView.snp.makeConstraints { (make) in
-            make.top.left.equalTo(view.safeAreaLayoutGuide).offset(15)
-            make.right.equalTo(view.safeAreaLayoutGuide).offset(-15)
-            make.height.equalToSuperview().multipliedBy(0.5)
+            make.top.left.equalTo(view.safeAreaLayoutGuide).offset(30)
+            make.right.equalToSuperview().offset(-30)
+            make.height.equalToSuperview().multipliedBy(0.8)
         }
         anyCorrectionsView.addSubview(anyCorrectionsLabel)
         anyCorrectionsLabel.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
             make.height.width.equalToSuperview()
         }
-//        view.addSubview(segmentedControl)
-//        segmentedControl.snp.makeConstraints { (make) in
-//            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(60)
-//            make.height.equalToSuperview().multipliedBy(0.1)
-//            make.width.equalToSuperview().multipliedBy(0.7)
-//        }
+        view.addSubview(segmentedControl)
+        segmentedControl.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(questionContainer.snp_bottomMargin).offset(60)
+            make.height.equalToSuperview().multipliedBy(0.05)
+            make.width.equalToSuperview().multipliedBy(0.7)
+        }
     }
 }
