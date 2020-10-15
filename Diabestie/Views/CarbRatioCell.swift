@@ -34,7 +34,7 @@ class CarbRatioCell: UITableViewCell {
     let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .secondaryColor
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 6
         view.clipsToBounds = true
         return view
     }()

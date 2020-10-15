@@ -18,6 +18,7 @@ class TabBarCoordinator: NSObject, Coordinator, UITabBarControllerDelegate {
     //MARK: Init
     init(window: UIWindow) {
         window.rootViewController = tabBarController
+        tabBarController.tabBar.tintColor = .primaryColor
     }
     
     // MARK: Methods
@@ -34,5 +35,12 @@ class TabBarCoordinator: NSObject, Coordinator, UITabBarControllerDelegate {
         tabBarController.selectedViewController = profileController
     }
     
+    func goToSetCarbRatiosController(controller: ProfileController) {
+        let vc = SetCarbRatiosController()
+        controller.present(vc, animated: true, completion: nil)
+    }
     
+    func goBackToProfileController(controller: SetCarbRatiosController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
 }

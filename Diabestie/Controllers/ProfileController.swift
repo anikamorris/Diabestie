@@ -81,13 +81,29 @@ class ProfileController: UIViewController {
         let label = UILabel()
         label.text = "Carb Ratios"
         label.textColor = .darkGray
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.font = UIFont(name: Constants.fontName, size: 24.0)
         return label
+    }()
+    let editCarbRatiosButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Edit", for: .normal)
+        button.setTitleColor(.alertColor, for: .normal)
+        button.contentHorizontalAlignment = .right
+        button.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    let carbRatioStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillProportionally
+        stackView.alignment = .center
+        return stackView
     }()
     let carbRatioTableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .backgroundColor
+        tableView.separatorStyle = .none
         tableView.register(CarbRatioCell.self, forCellReuseIdentifier: CarbRatioCell.identifier)
         return tableView
     }()
@@ -106,7 +122,7 @@ class ProfileController: UIViewController {
         helloLabel.text = "Hi, \(name)"
         view.addSubview(helloLabel)
         helloLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(30)
+            make.top.equalTo(view.safeAreaLayoutGuide)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.7)
             make.height.equalTo(60)
@@ -136,26 +152,43 @@ class ProfileController: UIViewController {
             make.width.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.275)
         }
-        view.addSubview(carbRatioLabel)
-        carbRatioLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(containerStackView.snp_bottomMargin).offset(15)
+        view.addSubview(carbRatioStackView)
+        carbRatioStackView.snp.makeConstraints { (make) in
+            make.top.equalTo(containerStackView.snp_bottomMargin).offset(30)
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalTo(40)
+            make.width.equalToSuperview().multipliedBy(0.85)
+            make.height.equalTo(50)
+        }
+        carbRatioStackView.addArrangedSubview(carbRatioLabel)
+        carbRatioLabel.snp.makeConstraints { (make) in
+            make.width.equalToSuperview().multipliedBy(0.5)
+        }
+        carbRatioStackView.addArrangedSubview(editCarbRatiosButton)
+        editCarbRatiosButton.snp.makeConstraints { (make) in
+            make.width.equalToSuperview().multipliedBy(0.5)
+            make.centerY.equalToSuperview()
         }
         view.addSubview(carbRatioTableView)
         carbRatioTableView.snp.makeConstraints { (make) in
             make.width.equalToSuperview().multipliedBy(0.85)
             make.centerX.equalToSuperview()
-            make.top.equalTo(carbRatioLabel.snp_bottomMargin).offset(15)
+            make.top.equalTo(carbRatioLabel.snp_bottomMargin).offset(20)
             make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
         }
+    }
+    
+    @objc func editButtonTapped() {
+        coordinator.goToSetCarbRatiosController(controller: self)
     }
 }
 
 extension ProfileController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 60
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("selected row \(indexPath.row)")
     }
 }
 

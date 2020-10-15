@@ -22,6 +22,7 @@
 		CF8621532537A85100427FB7 /* StackViewWithLabel+TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8621522537A85100427FB7 /* StackViewWithLabel+TextField.swift */; };
 		CF8621582537B45500427FB7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8621572537B45500427FB7 /* Constants.swift */; };
 		CF86215B2537B58100427FB7 /* CarbRatioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86215A2537B58100427FB7 /* CarbRatioCell.swift */; };
+		CF86215E2537CD7A00427FB7 /* SetCarbRatiosController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86215D2537CD7900427FB7 /* SetCarbRatiosController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		CF8621522537A85100427FB7 /* StackViewWithLabel+TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StackViewWithLabel+TextField.swift"; sourceTree = "<group>"; };
 		CF8621572537B45500427FB7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CF86215A2537B58100427FB7 /* CarbRatioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbRatioCell.swift; sourceTree = "<group>"; };
+		CF86215D2537CD7900427FB7 /* SetCarbRatiosController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCarbRatiosController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 			children = (
 				CF86214425367F8300427FB7 /* CalculatorController.swift */,
 				CF86214725367F8D00427FB7 /* ProfileController.swift */,
+				CF86215D2537CD7900427FB7 /* SetCarbRatiosController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				CF4AC95B24D3941200275A88 /* SceneDelegate.swift in Sources */,
 				CF86214525367F8300427FB7 /* CalculatorController.swift in Sources */,
 				CF86214225367E2400427FB7 /* TabBarCoordinator.swift in Sources */,
+				CF86215E2537CD7A00427FB7 /* SetCarbRatiosController.swift in Sources */,
 				CF8621582537B45500427FB7 /* Constants.swift in Sources */,
 				CF86213F25367E1200427FB7 /* Coordinator.swift in Sources */,
 				CF86214C2536868300427FB7 /* UIColor+AppColors.swift in Sources */,
