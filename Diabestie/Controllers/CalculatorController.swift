@@ -59,6 +59,7 @@ class CalculatorController: UIViewController {
         let attributes = [NSAttributedString.Key.foregroundColor: UIColor.white,
                           NSAttributedString.Key.font: UIFont(name: Constants.fontName, size: 20.0)!]
         control.setTitleTextAttributes(attributes, for: .normal)
+        control.addTarget(self, action: #selector(selectedSegmentedDidChange), for: .valueChanged)
         return control
     }()
     let nextButton: UIButton = {
@@ -67,6 +68,7 @@ class CalculatorController: UIViewController {
         let rightArrow = UIImage(systemName: "arrow.right", withConfiguration: largeConfig)
         button.setImage(rightArrow, for: .normal)
         button.tintColor = .primaryColor
+        button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         return button
     }()
     let backButton: UIButton = {
@@ -88,13 +90,13 @@ class CalculatorController: UIViewController {
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .backgroundColor
-        anyCorrectionsLabel.text = questions.anyCorrections
         setUpInitialView()
     }
     
     // MARK: Methods
     func setUpInitialView() {
+        view.backgroundColor = .backgroundColor
+        anyCorrectionsLabel.text = questions.anyCorrections
         view.addSubview(questionContainer)
         questionContainer.snp.makeConstraints { (make) in
             make.top.left.right.equalToSuperview()
@@ -129,5 +131,20 @@ class CalculatorController: UIViewController {
         buttonStackView.addArrangedSubview(nextButton)
         nextButton.isHidden = true
         backButton.isHidden = true
+    }
+    
+    @objc func selectedSegmentedDidChange() {
+        nextButton.isHidden = false
+    }
+    
+    @objc func nextButtonTapped() {
+        anyCorrectionsLabel.isHidden = true
+        anyCorrectionsView.addSubview(eatingNowLabel)
+        eatingNowLabel.text = Question.eatingNow
+        eatingNowLabel.snp.makeConstraints { (make) in
+            make.center.height.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.8)
+        }
+        backButton.isHidden = false
     }
 }
