@@ -250,6 +250,10 @@ class CalculatorController: UIViewController {
     }
     
     @objc func nextButtonTapped() {
+        if currentIndex == questionLabels.count - 1 {
+            print("finished questions")
+            return
+        }
         segmentedControl.selectedSegmentIndex = UISegmentedControl.noSegment
         animateFadeOut(questionViews[currentIndex])
         animateFadeOut(questionLabels[currentIndex])
