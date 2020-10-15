@@ -23,6 +23,8 @@
 		CF8621582537B45500427FB7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8621572537B45500427FB7 /* Constants.swift */; };
 		CF86215B2537B58100427FB7 /* CarbRatioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86215A2537B58100427FB7 /* CarbRatioCell.swift */; };
 		CF86215E2537CD7A00427FB7 /* SetCarbRatiosController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86215D2537CD7900427FB7 /* SetCarbRatiosController.swift */; };
+		CF8621612537CFD000427FB7 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8621602537CFD000427FB7 /* Question.swift */; };
+		CF8621692537DEDA00427FB7 /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8621682537DED900427FB7 /* CalculatorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		CF8621572537B45500427FB7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CF86215A2537B58100427FB7 /* CarbRatioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbRatioCell.swift; sourceTree = "<group>"; };
 		CF86215D2537CD7900427FB7 /* SetCarbRatiosController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCarbRatiosController.swift; sourceTree = "<group>"; };
+		CF8621602537CFD000427FB7 /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
+		CF8621682537DED900427FB7 /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +166,7 @@
 				CF86214F2537A73200427FB7 /* UnderlinedTextField.swift */,
 				CF8621522537A85100427FB7 /* StackViewWithLabel+TextField.swift */,
 				CF86215A2537B58100427FB7 /* CarbRatioCell.swift */,
+				CF8621682537DED900427FB7 /* CalculatorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -169,6 +174,7 @@
 		CF86213C25367B3D00427FB7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				CF8621602537CFD000427FB7 /* Question.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -305,6 +311,8 @@
 				CF86214225367E2400427FB7 /* TabBarCoordinator.swift in Sources */,
 				CF86215E2537CD7A00427FB7 /* SetCarbRatiosController.swift in Sources */,
 				CF8621582537B45500427FB7 /* Constants.swift in Sources */,
+				CF8621692537DEDA00427FB7 /* CalculatorView.swift in Sources */,
+				CF8621612537CFD000427FB7 /* Question.swift in Sources */,
 				CF86213F25367E1200427FB7 /* Coordinator.swift in Sources */,
 				CF86214C2536868300427FB7 /* UIColor+AppColors.swift in Sources */,
 				CF86214825367F8D00427FB7 /* ProfileController.swift in Sources */,
