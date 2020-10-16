@@ -17,10 +17,10 @@ class StackViewWithLabelAndTextField: UIStackView {
     var textField: UnderlinedTextField = {
         let textField = UnderlinedTextField()
         textField.font = UIFont(name: Constants.fontName, size: 20.0)
-        textField.textColor = .darkGray
+        textField.textColor = .white
         textField.textAlignment = .center
         textField.keyboardType = .decimalPad
-        textField.setUnderlineColor(color: .secondaryColor)
+        textField.setUnderlineColor(color: .white)
         textField.doneAccessory = true
         return textField
     }()

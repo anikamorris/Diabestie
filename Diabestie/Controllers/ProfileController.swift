@@ -27,21 +27,21 @@ class ProfileController: UIViewController {
     let isfLabel: UILabel = {
         let label = UILabel()
         label.text = "ISF"
-        label.textColor = .darkGray
+        label.textColor = .white
         label.font = UIFont(name: Constants.fontName, size: 20.0)
         return label
     }()
     let targetBGLabel: UILabel = {
         let label = UILabel()
         label.text = "Target BG"
-        label.textColor = .darkGray
+        label.textColor = .white
         label.font = UIFont(name: Constants.fontName, size: 20.0)
         return label
     }()
     let insulinDurationLabel: UILabel = {
         let label = UILabel()
         label.text = "Insulin duration"
-        label.textColor = .darkGray
+        label.textColor = .white
         label.font = UIFont(name: Constants.fontName, size: 20.0)
         return label
     }()
@@ -84,6 +84,16 @@ class ProfileController: UIViewController {
         tableView.separatorStyle = .none
         tableView.register(CarbRatioCell.self, forCellReuseIdentifier: CarbRatioCell.identifier)
         return tableView
+    }()
+    let saveButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .alertColor
+        button.layer.cornerRadius = 6
+        button.clipsToBounds = true
+        button.setTitle("Save Stats", for: .normal)
+        button.titleLabel?.font = UIFont(name: Constants.fontName, size: 25.0)
+        button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        return button
     }()
     
     // MARK: Lifecycle
@@ -135,7 +145,7 @@ class ProfileController: UIViewController {
         }
         view.addSubview(carbRatioStackView)
         carbRatioStackView.snp.makeConstraints { (make) in
-            make.top.equalTo(containerStackView.snp_bottomMargin).offset(30)
+            make.top.equalTo(containerStackView.snp_bottomMargin).offset(15)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.85)
             make.height.equalTo(50)
@@ -154,12 +164,35 @@ class ProfileController: UIViewController {
             make.width.equalToSuperview().multipliedBy(0.85)
             make.centerX.equalToSuperview()
             make.top.equalTo(carbRatioLabel.snp_bottomMargin).offset(20)
-            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
+            make.height.equalToSuperview().multipliedBy(0.22)
+        }
+        view.addSubview(saveButton)
+        saveButton.snp.makeConstraints { (make) in
+            make.top.equalTo(carbRatioTableView.snp_bottomMargin).offset(20)
+            make.width.equalToSuperview().multipliedBy(0.6)
+            make.height.equalToSuperview().multipliedBy(0.05)
+            make.centerX.equalToSuperview()
         }
     }
     
     @objc func editButtonTapped() {
         coordinator.goToSetCarbRatiosController(controller: self)
+    }
+    
+    @objc func saveButtonTapped() {
+        guard let isf = isfStackView.textField.text,
+              let targetBG = targetBGStackView.textField.text,
+              let insulinDuration = insulinDurationStackView.textField.text else {
+            print("please input all stats")
+            return
+        }
+        if isf == "" || targetBG == "" || insulinDuration == "" {
+            print("please input all stats")
+            return
+        }
+        print("isf: \(isf)")
+        print("targetBG: \(targetBG)")
+        print("insulinDuration: \(insulinDuration)")
     }
 }
 
