@@ -55,9 +55,7 @@ class CalculatorController: UIViewController {
         textField.font = UIFont(name: Constants.fontName, size: 30.0)
         textField.textColor = .darkGray
         textField.textAlignment = .center
-//        textField.backgroundColor = .white
-//        textField.layer.cornerRadius = 5
-//        textField.clipsToBounds = true
+        textField.returnKeyType = .done
         return textField
     }()
     let nextButton: UIButton = {
@@ -90,7 +88,7 @@ class CalculatorController: UIViewController {
         let button = UIButton()
         button.setTitle("Done", for: .normal)
         button.backgroundColor = .alertColor
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 8
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
         return button
@@ -104,6 +102,7 @@ class CalculatorController: UIViewController {
         questionLabels = [anyCorrectionsView.questionLabel, eatingNowView.questionLabel, currentBGView.questionLabel]
         setQuestionText()
         setUpInitialView()
+        numberInputTextField.delegate = self
     }
     
     // MARK: Methods
@@ -159,6 +158,7 @@ class CalculatorController: UIViewController {
         }
         buttonStackView.addArrangedSubview(backButton)
         buttonStackView.addArrangedSubview(nextButton)
+        setTotalUnitsViewConstraints()
         hideAllViewsExceptFirst()
     }
     
@@ -171,16 +171,8 @@ class CalculatorController: UIViewController {
     }
     
     fileprivate func setTotalUnitsViewConstraints() {
-        questionContainer.isHidden = true
-        for i in 0..<questionViews.count {
-            questionViews[i].isHidden = true
-            questionLabels[i].isHidden = true
-        }
-        buttonStackView.isHidden = true
-        numberInputTextField.isHidden = true
         view.addSubview(totalUnitsView)
         totalUnitsView.snp.makeConstraints { (make) in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(30)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.85)
             make.height.equalToSuperview().multipliedBy(0.7)
@@ -189,8 +181,8 @@ class CalculatorController: UIViewController {
         doneButton.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.6)
-            make.height.equalToSuperview().multipliedBy(0.08)
-            make.top.equalTo(totalUnitsView.snp_bottomMargin).offset(20)
+            make.height.equalToSuperview().multipliedBy(0.07)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-30)
         }
     }
     
@@ -203,6 +195,8 @@ class CalculatorController: UIViewController {
         numCarbsView.isHidden = true
         hoursSinceView.isHidden = true
         lastCorrectionUnitsView.isHidden = true
+        totalUnitsView.isHidden = true
+        doneButton.isHidden = true
     }
     
     fileprivate func setQuestionText() {
@@ -235,6 +229,16 @@ class CalculatorController: UIViewController {
             questionLabels.append(contentsOf: [numCarbsView.questionLabel])
         }
         // if answered no to both questions, no more views are needed
+    }
+    
+    fileprivate func hideViewsToShowUnits() {
+        questionContainer.isHidden = true
+        for i in 0..<questionViews.count {
+            questionViews[i].isHidden = true
+            questionLabels[i].isHidden = true
+        }
+        buttonStackView.isHidden = true
+        numberInputTextField.isHidden = true
     }
     
     fileprivate func castResponseToDouble() -> Double {
@@ -299,7 +303,9 @@ class CalculatorController: UIViewController {
         }
         totalUnitsView.numCorrectionUnitsLabel.text = correctionUnits
         totalUnitsView.numTotalUnitsLabel.text = totalUnits
-        setTotalUnitsViewConstraints()
+        hideViewsToShowUnits()
+        doneButton.isHidden = false
+        animateViewDropIn(totalUnitsView)
     }
     
     fileprivate func resetAnswer() {
@@ -312,7 +318,11 @@ class CalculatorController: UIViewController {
     }
     
     @objc func selectedSegmentedDidChange() {
-        nextButton.isHidden = false
+        if currentIndex == 0 {
+            buttonStackView.isHidden = false
+            nextButton.isHidden = false
+            backButton.isHidden = true
+        }
         var response: Bool
         if segmentedControl.selectedSegmentIndex == 0 {
             response = true
@@ -331,6 +341,7 @@ class CalculatorController: UIViewController {
         if currentIndex < questionViews.count - 1 {
             showNextQuestion()
         } else {
+            animateFadeOut(questionViews[currentIndex])
             currentIndex += 1
             saveNumber()
             showUnits()
@@ -369,15 +380,12 @@ class CalculatorController: UIViewController {
         questionViews = [anyCorrectionsView, eatingNowView, currentBGView]
         questionLabels = [anyCorrectionsView.questionLabel, eatingNowView.questionLabel, currentBGView.questionLabel]
         animateFadeOut(totalUnitsView)
-        totalUnitsView.snp.removeConstraints()
-        totalUnitsView.removeFromSuperview()
-        doneButton.removeFromSuperview()
+        totalUnitsView.isHidden = true
+        doneButton.isHidden = true
         questionContainer.isHidden = false
         segmentedControl.isHidden = false
         animateViewDropIn(questionViews[currentIndex])
         animateLabelDropIn(questionLabels[currentIndex])
-        print("answer: \(answer)")
-        print("num questions: \(questionViews.count)")
     }
 }
 
@@ -387,7 +395,8 @@ extension CalculatorController {
         animatedView.animate([.duration(0.2),
                               .fadeOut,
                               .background(color: .clear)
-                            ])
+                            ], completion: { [weak self] in self?.animateQuestionAccelerateOut(animatedView)}
+                            )
     }
     
     fileprivate func animateViewDropIn(_ animatedView: UIView) {
@@ -405,10 +414,10 @@ extension CalculatorController {
                               .timingFunction(.deceleration)
                             ], completion: {
                                 animatedView.isHidden = false
-                                animatedView.animate([.duration(0.5),
+                                animatedView.animate([.duration(0.3),
                                                       .translate(x: 0,
                                                                  y: yDistance,
-                                                                 z: 1),
+                                                                 z: 0),
                                                      .timingFunction(.deceleration)
                                                     ])
                             })
@@ -426,7 +435,7 @@ extension CalculatorController {
                               .timingFunction(.deceleration)
                             ], completion: {
                                 animatedLabel.isHidden = false
-                                animatedLabel.animate([.duration(0.5),
+                                animatedLabel.animate([.duration(0.3),
                                                       .translate(x: 0,
                                                                  y: yDistance,
                                                                  z: 1),
@@ -449,5 +458,15 @@ extension CalculatorController {
                               .translate(x: 0, y: -yDistance),
                               .timingFunction(.acceleration)
                             ])
+    }
+}
+
+// MARK: UITextFieldDelegate
+extension CalculatorController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == numberInputTextField {
+            textField.resignFirstResponder()
+        }
+        return true
     }
 }
