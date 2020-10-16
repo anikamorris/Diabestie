@@ -56,7 +56,7 @@ class CalculatorController: UIViewController {
         textField.textColor = .darkGray
         textField.textAlignment = .center
         textField.returnKeyType = .done
-        textField.keyboardType = .numberPad
+        textField.keyboardType = .decimalPad
         textField.doneAccessory = true
         return textField
     }()
@@ -148,7 +148,7 @@ class CalculatorController: UIViewController {
         view.addSubview(numberInputTextField)
         numberInputTextField.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.top.equalTo(questionContainer.snp_bottomMargin).offset(30)
+            make.top.equalTo(questionContainer.snp_bottomMargin).offset(10)
             make.height.equalToSuperview().multipliedBy(0.07)
             make.width.equalToSuperview().multipliedBy(0.4)
         }
