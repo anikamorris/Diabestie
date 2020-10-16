@@ -17,46 +17,69 @@ class TotalUnitsView: UIView {
         let label = UILabel()
         label.textColor = .white
         label.text = "Units for carbs"
-        label.font = UIFont(name: Constants.fontName, size: 25.0)
+        label.font = UIFont(name: Constants.fontName, size: 30.0)
         return label
     }()
     let numFoodUnitsLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = UIFont(name: Constants.fontName, size: 30.0)
+        label.font = UIFont(name: Constants.fontName, size: 35.0)
         return label
     }()
     let correctionUnitsLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.text = "Units for correction"
-        label.font = UIFont(name: Constants.fontName, size: 25.0)
+        label.font = UIFont(name: Constants.fontName, size: 30.0)
         return label
     }()
     let numCorrectionUnitsLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = UIFont(name: Constants.fontName, size: 30.0)
+        label.font = UIFont(name: Constants.fontName, size: 35.0)
         return label
     }()
     let totalUnitsLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.text = "Total units"
-        label.font = UIFont(name: Constants.fontName, size: 30.0)
+        label.font = UIFont(name: Constants.fontName, size: 35.0)
         return label
     }()
     let numTotalUnitsLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = UIFont(name: Constants.fontName, size: 35.0)
+        label.font = UIFont(name: Constants.fontName, size: 40.0)
         return label
     }()
-    let unitsStackView: UIStackView = {
+    let foodUnitsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fillProportionally
         stackView.alignment = .center
+        return stackView
+    }()
+    let correctionUnitsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillProportionally
+        stackView.alignment = .center
+        return stackView
+    }()
+    let totalUnitsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillProportionally
+        stackView.alignment = .center
+        return stackView
+    }()
+    let unitsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .center
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 30, leading: 0, bottom: 30, trailing: 0)
         return stackView
     }()
     
@@ -77,11 +100,14 @@ class TotalUnitsView: UIView {
         unitsStackView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
-        unitsStackView.addArrangedSubview(foodUnitsLabel)
-        unitsStackView.addArrangedSubview(numFoodUnitsLabel)
-        unitsStackView.addArrangedSubview(correctionUnitsLabel)
-        unitsStackView.addArrangedSubview(numCorrectionUnitsLabel)
-        unitsStackView.addArrangedSubview(totalUnitsLabel)
-        unitsStackView.addArrangedSubview(numTotalUnitsLabel)
+        foodUnitsStackView.addArrangedSubview(foodUnitsLabel)
+        foodUnitsStackView.addArrangedSubview(numFoodUnitsLabel)
+        correctionUnitsStackView.addArrangedSubview(correctionUnitsLabel)
+        correctionUnitsStackView.addArrangedSubview(numCorrectionUnitsLabel)
+        totalUnitsStackView.addArrangedSubview(totalUnitsLabel)
+        totalUnitsStackView.addArrangedSubview(numTotalUnitsLabel)
+        unitsStackView.addArrangedSubview(foodUnitsStackView)
+        unitsStackView.addArrangedSubview(correctionUnitsStackView)
+        unitsStackView.addArrangedSubview(totalUnitsStackView)
     }
 }

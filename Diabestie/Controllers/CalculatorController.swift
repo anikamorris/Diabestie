@@ -174,7 +174,7 @@ class CalculatorController: UIViewController {
             make.top.equalTo(view.safeAreaLayoutGuide).offset(30)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.85)
-            make.height.equalToSuperview().multipliedBy(0.8)
+            make.height.equalToSuperview().multipliedBy(0.7)
         }
     }
     
@@ -262,11 +262,6 @@ class CalculatorController: UIViewController {
                 answer.lastCorrectionUnits = num
             }
         }
-        print("number of questions views: \(questionViews.count)")
-        print("currentIndex: \(currentIndex-1)")
-        print("question: \(questionLabels[currentIndex-1].text!)")
-        print("answer: \(num)")
-        print("--------------------")
     }
     
     fileprivate func showNextQuestion() {
@@ -278,22 +273,17 @@ class CalculatorController: UIViewController {
     }
     
     fileprivate func showUnits() {
-        totalUnitsView.numFoodUnitsLabel.text = String(answer.calculateFoodUnits())
-        totalUnitsView.numCorrectionUnitsLabel.text = String(answer.calculateCorrectionUnits())
-        totalUnitsView.numTotalUnitsLabel.text = String(answer.totalUnits())
+        let foodUnits = String(answer.calculateFoodUnits())
+        let correctionUnits = String(answer.calculateCorrectionUnits())
+        let totalUnits = String(answer.totalUnits())
+        if foodUnits == "0.0" {
+            totalUnitsView.numFoodUnitsLabel.text = "0"
+        } else {
+            totalUnitsView.numFoodUnitsLabel.text = String(foodUnits)
+        }
+        totalUnitsView.numCorrectionUnitsLabel.text = correctionUnits
+        totalUnitsView.numTotalUnitsLabel.text = totalUnits
         setTotalUnitsViewConstraints()
-        print("num questions: \(questionViews.count)")
-        print("answer to first question: \(answer.anyCorrections)")
-        print("answer to second question: \(answer.eatingNow)")
-        print("current bg: \(answer.currentBG)")
-        print("carbs: \(answer.numCarbs)")
-        print("hours since: \(answer.hoursSince)")
-        print("units of last correction: \(answer.lastCorrectionUnits)")
-        print("food units: \(answer.calculateFoodUnits())")
-        print("correction units: \(answer.calculateCorrectionUnits())")
-        print("total units: \(answer.totalUnits())")
-        print("finished questions")
-        print("------------------")
     }
     
     @objc func selectedSegmentedDidChange() {
