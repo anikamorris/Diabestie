@@ -25,24 +25,25 @@ struct Answer {
         }
     }
     
-    func calculateCorrectionUnits() -> Int {
-        let targetBG = 120
+    func calculateCorrectionUnits() -> Double {
+        let targetBG = 100
         let isf = 25
         let insulinDuration = 3
         let bgDifferenceDividedByISF = (currentBG - targetBG) / isf
         if anyCorrections { // answered yes to first 2 questions
-            let hoursSinceDividedByInsulinDuration = hoursSince / Double(insulinDuration)
-            let lastCorrectionTimesHoursSinceDividedByInsulinDuration = lastCorrectionUnits * Int(hoursSinceDividedByInsulinDuration)
-            let totalCorrection = bgDifferenceDividedByISF - (lastCorrectionUnits - lastCorrectionTimesHoursSinceDividedByInsulinDuration)
-            return totalCorrection
+            let x = Double(bgDifferenceDividedByISF)
+            let y = (Double(lastCorrectionUnits) * (hoursSince / Double(insulinDuration)))
+            let correction = x - (Double(lastCorrectionUnits) - y)
+            let totalCorrectionUnits = (round(correction * 10)) / 10
+            return totalCorrectionUnits
         } else { // answered no to both questions
-            return bgDifferenceDividedByISF
+            return Double(bgDifferenceDividedByISF)
         }
     }
     
     func totalUnits() -> Int {
         let foodUnits = calculateFoodUnits()
         let correctionUnits = calculateCorrectionUnits()
-        return foodUnits + correctionUnits
+        return foodUnits + Int(round(correctionUnits))
     }
 }

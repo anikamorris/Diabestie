@@ -250,7 +250,13 @@ class CalculatorController: UIViewController {
     }
     
     @objc func nextButtonTapped() {
+        saveNumber()
         if currentIndex == questionLabels.count - 1 {
+            print("carbs: \(answer.numCarbs)")
+            print("current bg: \(answer.currentBG)")
+            print("food units: \(answer.calculateFoodUnits())")
+            print("correction units: \(answer.calculateCorrectionUnits())")
+            print("total units: \(answer.totalUnits())")
             print("finished questions")
             return
         }
