@@ -19,7 +19,7 @@ struct Answer {
     func calculateFoodUnits() -> Double {
         let ratio = 6.0
         if eatingNow {
-            return numCarbs / ratio
+            return round((numCarbs / ratio) * 10) / 10
         }  else {
             return 0
         }

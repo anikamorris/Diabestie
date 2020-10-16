@@ -85,6 +85,7 @@ class CalculatorController: UIViewController {
         stackView.alignment = .center
         return stackView
     }()
+    let totalUnitsView = TotalUnitsView()
     
     // MARK: Lifecycle
     override func viewDidLoad() {
@@ -154,6 +155,23 @@ class CalculatorController: UIViewController {
     
     fileprivate func setQuestionViewConstraints(view: QuestionView) {
         view.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.85)
+            make.height.equalToSuperview().multipliedBy(0.8)
+        }
+    }
+    
+    fileprivate func setTotalUnitsViewConstraints() {
+        questionContainer.isHidden = true
+        for i in 0..<questionViews.count {
+            questionViews[i].isHidden = true
+            questionLabels[i].isHidden = true
+        }
+        buttonStackView.isHidden = true
+        numberInputTextField.isHidden = true
+        view.addSubview(totalUnitsView)
+        totalUnitsView.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(30)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.85)
             make.height.equalToSuperview().multipliedBy(0.8)
@@ -260,6 +278,10 @@ class CalculatorController: UIViewController {
     }
     
     fileprivate func showUnits() {
+        totalUnitsView.numFoodUnitsLabel.text = String(answer.calculateFoodUnits())
+        totalUnitsView.numCorrectionUnitsLabel.text = String(answer.calculateCorrectionUnits())
+        totalUnitsView.numTotalUnitsLabel.text = String(answer.totalUnits())
+        setTotalUnitsViewConstraints()
         print("num questions: \(questionViews.count)")
         print("answer to first question: \(answer.anyCorrections)")
         print("answer to second question: \(answer.eatingNow)")

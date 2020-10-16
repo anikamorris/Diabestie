@@ -27,6 +27,7 @@
 		CF8621692537DEDA00427FB7 /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8621682537DED900427FB7 /* CalculatorView.swift */; };
 		CF86216C2538F5E700427FB7 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86216B2538F5E700427FB7 /* QuestionView.swift */; };
 		CF9C8CEB2539004F00128C21 /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9C8CEA2539004F00128C21 /* Answer.swift */; };
+		CF9C8CEE253A18C500128C21 /* TotalUnitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9C8CED253A18C500128C21 /* TotalUnitsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		CF8621682537DED900427FB7 /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
 		CF86216B2538F5E700427FB7 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		CF9C8CEA2539004F00128C21 /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
+		CF9C8CED253A18C500128C21 /* TotalUnitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalUnitsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +174,7 @@
 				CF86215A2537B58100427FB7 /* CarbRatioCell.swift */,
 				CF8621682537DED900427FB7 /* CalculatorView.swift */,
 				CF86216B2538F5E700427FB7 /* QuestionView.swift */,
+				CF9C8CED253A18C500128C21 /* TotalUnitsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				CF4AC95B24D3941200275A88 /* SceneDelegate.swift in Sources */,
 				CF86214525367F8300427FB7 /* CalculatorController.swift in Sources */,
 				CF86214225367E2400427FB7 /* TabBarCoordinator.swift in Sources */,
+				CF9C8CEE253A18C500128C21 /* TotalUnitsView.swift in Sources */,
 				CF86215E2537CD7A00427FB7 /* SetCarbRatiosController.swift in Sources */,
 				CF9C8CEB2539004F00128C21 /* Answer.swift in Sources */,
 				CF8621582537B45500427FB7 /* Constants.swift in Sources */,
