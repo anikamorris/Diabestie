@@ -352,6 +352,7 @@ class CalculatorController: UIViewController {
         }
         backButton.isHidden = false
         if currentIndex == 2 { // user is viewing currentBG question
+            numberInputTextField.text = ""
             setQuestionViewsForAnswer()
             setQuestionText()
             segmentedControl.isHidden = true
