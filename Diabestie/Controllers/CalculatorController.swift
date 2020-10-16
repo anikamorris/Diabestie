@@ -86,6 +86,15 @@ class CalculatorController: UIViewController {
         return stackView
     }()
     let totalUnitsView = TotalUnitsView()
+    let doneButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Done", for: .normal)
+        button.backgroundColor = .alertColor
+        button.layer.cornerRadius = 5
+        button.clipsToBounds = true
+        button.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+        return button
+    }()
     
     // MARK: Lifecycle
     override func viewDidLoad() {
@@ -175,6 +184,13 @@ class CalculatorController: UIViewController {
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.85)
             make.height.equalToSuperview().multipliedBy(0.7)
+        }
+        view.addSubview(doneButton)
+        doneButton.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.6)
+            make.height.equalToSuperview().multipliedBy(0.08)
+            make.top.equalTo(totalUnitsView.snp_bottomMargin).offset(20)
         }
     }
     
@@ -268,8 +284,8 @@ class CalculatorController: UIViewController {
         animateFadeOut(questionViews[currentIndex])
         animateFadeOut(questionLabels[currentIndex])
         currentIndex += 1
-        animateQuestionViewDropIn(questionViews[currentIndex])
-        animateQuestionLabelDropIn(questionLabels[currentIndex])
+        animateViewDropIn(questionViews[currentIndex])
+        animateLabelDropIn(questionLabels[currentIndex])
     }
     
     fileprivate func showUnits() {
@@ -284,6 +300,15 @@ class CalculatorController: UIViewController {
         totalUnitsView.numCorrectionUnitsLabel.text = correctionUnits
         totalUnitsView.numTotalUnitsLabel.text = totalUnits
         setTotalUnitsViewConstraints()
+    }
+    
+    fileprivate func resetAnswer() {
+        answer.anyCorrections = false
+        answer.eatingNow = false
+        answer.currentBG = 0
+        answer.numCarbs = 0
+        answer.hoursSince = 0
+        answer.lastCorrectionUnits = 0
     }
     
     @objc func selectedSegmentedDidChange() {
@@ -337,6 +362,23 @@ class CalculatorController: UIViewController {
             numberInputTextField.isHidden = true
         }
     }
+    
+    @objc func doneButtonTapped() {
+        resetAnswer()
+        currentIndex = 0
+        questionViews = [anyCorrectionsView, eatingNowView, currentBGView]
+        questionLabels = [anyCorrectionsView.questionLabel, eatingNowView.questionLabel, currentBGView.questionLabel]
+        animateFadeOut(totalUnitsView)
+        totalUnitsView.snp.removeConstraints()
+        totalUnitsView.removeFromSuperview()
+        doneButton.removeFromSuperview()
+        questionContainer.isHidden = false
+        segmentedControl.isHidden = false
+        animateViewDropIn(questionViews[currentIndex])
+        animateLabelDropIn(questionLabels[currentIndex])
+        print("answer: \(answer)")
+        print("num questions: \(questionViews.count)")
+    }
 }
 
 // MARK: Animations
@@ -348,7 +390,8 @@ extension CalculatorController {
                             ])
     }
     
-    fileprivate func animateQuestionViewDropIn(_ animatedView: UIView) {
+    fileprivate func animateViewDropIn(_ animatedView: UIView) {
+        animatedView.alpha = 1
         let windows = UIApplication.shared.windows
         let safeAreaTop = windows[0].safeAreaInsets.top
         let xPoint = view.bounds.width * 0.5
@@ -357,6 +400,7 @@ extension CalculatorController {
         
         animatedView.animate([.delay(0.1),
                               .duration(0.15),
+                              .background(color: .primaryColor),
                               .position(CGPoint(x: xPoint, y: yPoint)),
                               .timingFunction(.deceleration)
                             ], completion: {
@@ -370,7 +414,8 @@ extension CalculatorController {
                             })
     }
     
-    fileprivate func animateQuestionLabelDropIn(_ animatedLabel: UILabel) {
+    fileprivate func animateLabelDropIn(_ animatedLabel: UILabel) {
+        animatedLabel.alpha = 1
         let xPoint = view.bounds.width * 0.425
         let yPoint = CGFloat(0) - animatedLabel.bounds.height/2
         let yDistance = animatedLabel.bounds.height
