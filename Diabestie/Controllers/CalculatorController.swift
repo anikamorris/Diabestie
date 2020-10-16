@@ -56,6 +56,8 @@ class CalculatorController: UIViewController {
         textField.textColor = .darkGray
         textField.textAlignment = .center
         textField.returnKeyType = .done
+        textField.keyboardType = .numberPad
+        textField.doneAccessory = true
         return textField
     }()
     let nextButton: UIButton = {
@@ -87,6 +89,7 @@ class CalculatorController: UIViewController {
     let doneButton: UIButton = {
         let button = UIButton()
         button.setTitle("Done", for: .normal)
+        button.titleLabel?.font = UIFont(name: Constants.fontName, size: 20.0)
         button.backgroundColor = .alertColor
         button.layer.cornerRadius = 8
         button.clipsToBounds = true
@@ -348,16 +351,17 @@ class CalculatorController: UIViewController {
             return
         }
         backButton.isHidden = false
-        if currentIndex == 2 {
+        if currentIndex == 2 { // user is viewing currentBG question
             setQuestionViewsForAnswer()
             setQuestionText()
             segmentedControl.isHidden = true
             numberInputTextField.isHidden = false
-        } else if currentIndex < 2 {
+        } else if currentIndex < 2 { // user is still on one of the first 2 questions
             segmentedControl.isHidden = false
             numberInputTextField.isHidden = true
-        } else {
+        } else { // user is past currentBG question
             saveNumber()
+            numberInputTextField.text = ""
         }
     }
     

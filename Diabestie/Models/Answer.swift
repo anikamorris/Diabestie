@@ -44,6 +44,6 @@ struct Answer {
     func totalUnits() -> Double {
         let foodUnits = calculateFoodUnits()
         let correctionUnits = calculateCorrectionUnits()
-        return foodUnits + correctionUnits
+        return (round((foodUnits + correctionUnits) * 10) / 10)
     }
 }
