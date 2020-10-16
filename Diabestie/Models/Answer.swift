@@ -11,13 +11,13 @@ import Foundation
 struct Answer {
     var anyCorrections: Bool
     var eatingNow: Bool
-    var currentBG: Int
-    var numCarbs: Int
+    var currentBG: Double
+    var numCarbs: Double
     var hoursSince: Double
-    var lastCorrectionUnits: Int
+    var lastCorrectionUnits: Double
     
-    func calculateFoodUnits() -> Int {
-        let ratio = 6
+    func calculateFoodUnits() -> Double {
+        let ratio = 6.0
         if eatingNow {
             return numCarbs / ratio
         }  else {
@@ -26,24 +26,24 @@ struct Answer {
     }
     
     func calculateCorrectionUnits() -> Double {
-        let targetBG = 100
-        let isf = 25
-        let insulinDuration = 3
+        let targetBG = 100.0
+        let isf = 25.0
+        let insulinDuration = 3.0
         let bgDifferenceDividedByISF = (currentBG - targetBG) / isf
         if anyCorrections { // answered yes to first 2 questions
-            let x = Double(bgDifferenceDividedByISF)
-            let y = (Double(lastCorrectionUnits) * (hoursSince / Double(insulinDuration)))
-            let correction = x - (Double(lastCorrectionUnits) - y)
+            let x = bgDifferenceDividedByISF
+            let y = (lastCorrectionUnits * (hoursSince / insulinDuration))
+            let correction = x - (lastCorrectionUnits - y)
             let totalCorrectionUnits = (round(correction * 10)) / 10
             return totalCorrectionUnits
         } else { // answered no to both questions
-            return Double(bgDifferenceDividedByISF)
+            return bgDifferenceDividedByISF
         }
     }
     
-    func totalUnits() -> Int {
+    func totalUnits() -> Double {
         let foodUnits = calculateFoodUnits()
         let correctionUnits = calculateCorrectionUnits()
-        return foodUnits + Int(round(correctionUnits))
+        return foodUnits + round(correctionUnits)
     }
 }

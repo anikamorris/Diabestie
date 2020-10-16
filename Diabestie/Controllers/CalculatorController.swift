@@ -203,35 +203,75 @@ class CalculatorController: UIViewController {
         // if answered no to both questions, no more views are needed
     }
     
-    fileprivate func saveNumber() {
+    fileprivate func castResponseToDouble() -> Double {
         let response = numberInputTextField.text
-        if currentIndex == 4 {
-            guard let hoursSince = Double(response!) else {
-                print("couldn't turn hoursSince into a double")
-                return
-            }
-            answer.hoursSince = hoursSince
-        } else {
-            if currentIndex == 2 {
-                guard let currentBG = Int(response!) else {
-                    print("couldn't turn currentBG into an int")
-                    return
-                }
-                answer.currentBG = currentBG
-            } else if currentIndex == 3 {
-                guard let numCarbs = Int(response!) else {
-                    print("couldn't turn numCarbs into an int")
-                    return
-                }
-                answer.numCarbs = numCarbs
+        if response == "" {
+            print("Please input a number.")
+        }
+        guard let num = Double(response!) else {
+            print("Please input a number.")
+            return 0.0
+        }
+        return num
+    }
+    
+    fileprivate func saveNumber() {
+        let num = castResponseToDouble()
+        if questionViews.count == 3 { // there are 3 questions, user answered no to first two questions
+            answer.currentBG = num
+        } else if questionViews.count == 4 { // there are 4 questions, user answered yes to only the second question
+            if currentIndex == 3 {
+                answer.currentBG = num
             } else {
-                guard let lastCorrectionUnits = Int(response!) else {
-                    print("couldn't turn lastCorrectionUnits into an int")
-                    return
-                }
-                answer.lastCorrectionUnits = lastCorrectionUnits
+                answer.numCarbs = num
+            }
+        } else if questionViews.count == 5 { // there are 5 questions, user answered yes to only the first question
+            if currentIndex == 3 {
+                answer.currentBG = num
+            } else if currentIndex == 4 {
+                answer.hoursSince = num
+            } else {
+                answer.lastCorrectionUnits = num
+            }
+        } else { // there are 6 questions, user answered yes to first two questions
+            if currentIndex == 3 {
+                answer.currentBG = num
+            } else if currentIndex == 4 {
+                answer.numCarbs = num
+            } else if currentIndex == 5 {
+                answer.hoursSince = num
+            } else {
+                answer.lastCorrectionUnits = num
             }
         }
+        print("number of questions views: \(questionViews.count)")
+        print("currentIndex: \(currentIndex-1)")
+        print("question: \(questionLabels[currentIndex-1].text!)")
+        print("answer: \(num)")
+        print("--------------------")
+    }
+    
+    fileprivate func showNextQuestion() {
+        animateFadeOut(questionViews[currentIndex])
+        animateFadeOut(questionLabels[currentIndex])
+        currentIndex += 1
+        animateQuestionViewDropIn(questionViews[currentIndex])
+        animateQuestionLabelDropIn(questionLabels[currentIndex])
+    }
+    
+    fileprivate func showUnits() {
+        print("num questions: \(questionViews.count)")
+        print("answer to first question: \(answer.anyCorrections)")
+        print("answer to second question: \(answer.eatingNow)")
+        print("current bg: \(answer.currentBG)")
+        print("carbs: \(answer.numCarbs)")
+        print("hours since: \(answer.hoursSince)")
+        print("units of last correction: \(answer.lastCorrectionUnits)")
+        print("food units: \(answer.calculateFoodUnits())")
+        print("correction units: \(answer.calculateCorrectionUnits())")
+        print("total units: \(answer.totalUnits())")
+        print("finished questions")
+        print("------------------")
     }
     
     @objc func selectedSegmentedDidChange() {
@@ -250,22 +290,15 @@ class CalculatorController: UIViewController {
     }
     
     @objc func nextButtonTapped() {
-        saveNumber()
-        if currentIndex == questionLabels.count - 1 {
-            print("carbs: \(answer.numCarbs)")
-            print("current bg: \(answer.currentBG)")
-            print("food units: \(answer.calculateFoodUnits())")
-            print("correction units: \(answer.calculateCorrectionUnits())")
-            print("total units: \(answer.totalUnits())")
-            print("finished questions")
+        segmentedControl.selectedSegmentIndex = UISegmentedControl.noSegment
+        if currentIndex < questionViews.count - 1 {
+            showNextQuestion()
+        } else {
+            currentIndex += 1
+            saveNumber()
+            showUnits()
             return
         }
-        segmentedControl.selectedSegmentIndex = UISegmentedControl.noSegment
-        animateFadeOut(questionViews[currentIndex])
-        animateFadeOut(questionLabels[currentIndex])
-        currentIndex += 1
-        animateQuestionViewDropIn(questionViews[currentIndex])
-        animateQuestionLabelDropIn(questionLabels[currentIndex])
         backButton.isHidden = false
         if currentIndex == 2 {
             setQuestionViewsForAnswer()
@@ -276,8 +309,7 @@ class CalculatorController: UIViewController {
             segmentedControl.isHidden = false
             numberInputTextField.isHidden = true
         } else {
-            segmentedControl.isHidden = true
-            numberInputTextField.isHidden = false
+            saveNumber()
         }
     }
     
