@@ -14,11 +14,11 @@ class ProfileController: UIViewController {
     
     // MARK: Properties
     var coordinator: TabBarCoordinator!
-    let name: String = "Anika"
     
     // MARK: Views
-    let helloLabel: UILabel = {
+    let myStatsLabel: UILabel = {
         let label = UILabel()
+        label.text = "My Stats"
         label.textColor = .darkGray
         label.textAlignment = .center
         label.font = UIFont(name: Constants.fontName, size: 30.0)
@@ -45,31 +45,9 @@ class ProfileController: UIViewController {
         label.font = UIFont(name: Constants.fontName, size: 20.0)
         return label
     }()
-    let isfTextField: UnderlinedTextField = {
-        let textField = UnderlinedTextField()
-        textField.font = UIFont(name: Constants.fontName, size: 20.0)
-        textField.textColor = .darkGray
-        textField.textAlignment = .center
-        textField.setUnderlineColor(color: .secondaryColor)
-        return textField
-    }()
-    let targetBGTextField: UnderlinedTextField = {
-        let textField = UnderlinedTextField()
-        textField.font = UIFont(name: Constants.fontName, size: 20.0)
-        textField.textColor = .darkGray
-        textField.textAlignment = .center
-        textField.setUnderlineColor(color: .secondaryColor)
-        return textField
-    }()
-    let insulinDurationTextField: UnderlinedTextField = {
-        let textField = UnderlinedTextField()
-        textField.font = UIFont(name: Constants.fontName, size: 20.0)
-        textField.textColor = .darkGray
-        textField.textAlignment = .center
-        textField.placeholder = "Hours"
-        textField.setUnderlineColor(color: .secondaryColor)
-        return textField
-    }()
+    var isfStackView: StackViewWithLabelAndTextField!
+    var targetBGStackView: StackViewWithLabelAndTextField!
+    var insulinDurationStackView: StackViewWithLabelAndTextField!
     let containerStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -119,34 +97,37 @@ class ProfileController: UIViewController {
     // MARK: Methods
     fileprivate func setUpViews() {
         view.backgroundColor = .backgroundColor
-        helloLabel.text = "Hi, \(name)"
-        view.addSubview(helloLabel)
-        helloLabel.snp.makeConstraints { (make) in
+        view.addSubview(myStatsLabel)
+        myStatsLabel.snp.makeConstraints { (make) in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.7)
             make.height.equalTo(60)
         }
-        let isfStackView = StackViewWithLabelAndTextField(frame: .zero, label: isfLabel, textField: isfTextField)
-        let targetBGStackView = StackViewWithLabelAndTextField(frame: .zero, label: targetBGLabel, textField: targetBGTextField)
-        let insulinDurationStackView = StackViewWithLabelAndTextField(frame: .zero, label: insulinDurationLabel, textField: insulinDurationTextField)
         view.addSubview(containerStackView)
         containerStackView.snp.makeConstraints { (make) in
-            make.top.equalTo(helloLabel.snp_bottomMargin).offset(30)
+            make.top.equalTo(myStatsLabel.snp_bottomMargin).offset(30)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.85)
             make.height.equalToSuperview().multipliedBy(0.35)
         }
+        // constraints for isfStackView
+        isfStackView = StackViewWithLabelAndTextField(frame: .zero, label: isfLabel)
         containerStackView.addArrangedSubview(isfStackView)
         isfStackView.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.275)
         }
+        // constraints for targetBGStackView
+        targetBGStackView = StackViewWithLabelAndTextField(frame: .zero, label: targetBGLabel)
         containerStackView.addArrangedSubview(targetBGStackView)
         targetBGStackView.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.275)
         }
+        // constraints for insulinDurationStackView
+        insulinDurationStackView = StackViewWithLabelAndTextField(frame: .zero, label: insulinDurationLabel)
+        insulinDurationStackView.textField.placeholder = "Hours"
         containerStackView.addArrangedSubview(insulinDurationStackView)
         insulinDurationStackView.snp.makeConstraints { (make) in
             make.width.equalToSuperview()

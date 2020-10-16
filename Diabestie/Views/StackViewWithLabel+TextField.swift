@@ -14,12 +14,20 @@ class StackViewWithLabelAndTextField: UIStackView {
     
     // MARK: Properties
     let label: UILabel!
-    let textField: UITextField!
+    var textField: UnderlinedTextField = {
+        let textField = UnderlinedTextField()
+        textField.font = UIFont(name: Constants.fontName, size: 20.0)
+        textField.textColor = .darkGray
+        textField.textAlignment = .center
+        textField.keyboardType = .decimalPad
+        textField.setUnderlineColor(color: .secondaryColor)
+        textField.doneAccessory = true
+        return textField
+    }()
     
     // MARK: Init
-    init(frame: CGRect, label: UILabel, textField: UITextField) {
+    init(frame: CGRect, label: UILabel) {
         self.label = label
-        self.textField = textField
         super.init(frame: frame)
         self.layer.cornerRadius = 8
         self.clipsToBounds = true

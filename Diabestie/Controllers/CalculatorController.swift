@@ -55,7 +55,6 @@ class CalculatorController: UIViewController {
         textField.font = UIFont(name: Constants.fontName, size: 30.0)
         textField.textColor = .darkGray
         textField.textAlignment = .center
-        textField.returnKeyType = .done
         textField.keyboardType = .decimalPad
         textField.doneAccessory = true
         return textField
