@@ -183,16 +183,16 @@ class ProfileController: UIViewController {
         guard let isf = isfStackView.textField.text,
               let targetBG = targetBGStackView.textField.text,
               let insulinDuration = insulinDurationStackView.textField.text else {
-            print("please input all stats")
+            self.presentAlert(title: "Please input all stats.")
             return
         }
         if isf == "" || targetBG == "" || insulinDuration == "" {
-            print("please input all stats")
+            self.presentAlert(title: "Please input all stats.")
             return
         }
-        print("isf: \(isf)")
-        print("targetBG: \(targetBG)")
-        print("insulinDuration: \(insulinDuration)")
+        UserDefaults.standard.setValue(isf, forKey: "isf")
+        UserDefaults.standard.setValue(targetBG, forKey: "targetBG")
+        UserDefaults.standard.setValue(insulinDuration, forKey: "insulinDuration")
     }
 }
 

@@ -246,10 +246,10 @@ class CalculatorController: UIViewController {
     fileprivate func castResponseToDouble() -> Double {
         let response = numberInputTextField.text
         if response == "" {
-            print("Please input a number.")
+            self.presentAlert(title: "Please input a number.")
         }
         guard let num = Double(response!) else {
-            print("Please input a number.")
+            self.presentAlert(title: "Please input a number.")
             return 0.0
         }
         return num
