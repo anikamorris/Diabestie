@@ -102,6 +102,7 @@ class ProfileController: UIViewController {
         carbRatioTableView.dataSource = self
         carbRatioTableView.delegate = self
         setUpViews()
+        setStatsTextFields()
     }
     
     // MARK: Methods
@@ -175,6 +176,18 @@ class ProfileController: UIViewController {
         }
     }
     
+    fileprivate func setStatsTextFields() {
+        let hasSavedStats = UserDefaults.standard.bool(forKey: "hasSavedStats")
+        if hasSavedStats {
+            let isf = UserDefaults.standard.string(forKey: "isf")
+            let targetBG = UserDefaults.standard.string(forKey: "targetBG")
+            let insulinDuration = UserDefaults.standard.string(forKey: "insulinDuration")
+            isfStackView.textField.text = isf
+            targetBGStackView.textField.text = targetBG
+            insulinDurationStackView.textField.text = insulinDuration
+        }
+    }
+    
     @objc func editButtonTapped() {
         coordinator.goToSetCarbRatiosController(controller: self)
     }
@@ -193,6 +206,8 @@ class ProfileController: UIViewController {
         UserDefaults.standard.setValue(isf, forKey: "isf")
         UserDefaults.standard.setValue(targetBG, forKey: "targetBG")
         UserDefaults.standard.setValue(insulinDuration, forKey: "insulinDuration")
+        UserDefaults.standard.setValue(true, forKey: "hasSavedStats")
+        self.presentAlert(title: "Stats successfully saved!")
     }
 }
 

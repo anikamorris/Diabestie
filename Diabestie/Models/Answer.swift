@@ -26,9 +26,15 @@ struct Answer {
     }
     
     func calculateCorrectionUnits() -> Double {
-        let targetBG = 100.0
-        let isf = 25.0
-        let insulinDuration = 3.0
+        let targetBGStr = UserDefaults.standard.string(forKey: "targetBG")
+        let isfStr = UserDefaults.standard.string(forKey: "isf")
+        let insulinDurationStr = UserDefaults.standard.string(forKey: "insulinDuration")
+        guard let targetBG = Double(targetBGStr!),
+              let isf = Double(isfStr!),
+              let insulinDuration = Double(insulinDurationStr!) else {
+            print("couldn't turn userDefaults values to doubles")
+            return 0
+        }
         let bgDifferenceDividedByISF = (currentBG - targetBG) / isf
         if anyCorrections { // answered yes to first 2 questions
             let x = bgDifferenceDividedByISF
