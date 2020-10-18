@@ -15,9 +15,21 @@ class SetCarbRatiosController: UIViewController {
     
     // MARK: Properties
     var coordinator: TabBarCoordinator!
-    var sliderValue: Int = 0 {
+    lazy var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm a"
+        return dateFormatter
+    }()
+    var sliderStartValue: Int = 0 {
         didSet {
-            ratioTextField.text = String(sliderValue)
+            let difference =  sliderEndValue - sliderStartValue
+            ratioTextField.text = String(difference)
+        }
+    }
+    var sliderEndValue: Int = 0 {
+        didSet {
+            let difference = sliderEndValue - sliderStartValue
+            ratioTextField.text = String(difference)
         }
     }
     
@@ -25,6 +37,12 @@ class SetCarbRatiosController: UIViewController {
     let circularSlider: RangeCircularSlider = {
         let slider = RangeCircularSlider()
         slider.backgroundColor = .alertColor
+        slider.diskColor = .alertColor
+        slider.trackFillColor = .primaryColor
+        slider.startThumbTintColor = .accentColor
+        slider.endThumbTintColor = .accentColor
+        slider.lineWidth = 12.0
+        slider.backtrackLineWidth = 10.0
         let dayInSeconds = 12 * 60 * 60
         slider.maximumValue = CGFloat(dayInSeconds)
         slider.startPointValue = 0
@@ -112,6 +130,14 @@ class SetCarbRatiosController: UIViewController {
     }
     
     fileprivate func setUpCircularSlider() {
+        let hoursImage = UIImage(named: "Hours")!
+        let hoursImageView = UIImageView(image: hoursImage)
+        circularSlider.addSubview(hoursImageView)
+        hoursImageView.snp.makeConstraints { (make) in
+            make.height.equalToSuperview().multipliedBy(0.7)
+            make.center.equalToSuperview()
+        }
+        hoursImageView.widthAnchor.constraint(equalTo: hoursImageView.heightAnchor).isActive = true
     }
     
     @objc func selectedSegmentDidChange() {
@@ -120,6 +146,7 @@ class SetCarbRatiosController: UIViewController {
     }
     
     @objc func sliderValueDidChange() {
-        sliderValue = Int(circularSlider.startPointValue)
+        sliderStartValue = Int(circularSlider.startPointValue)
+        sliderEndValue = Int(circularSlider.endPointValue)
     }
 }
