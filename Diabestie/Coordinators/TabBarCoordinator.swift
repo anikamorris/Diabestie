@@ -37,6 +37,8 @@ class TabBarCoordinator: NSObject, Coordinator, UITabBarControllerDelegate {
     
     func goToSetCarbRatiosController(controller: ProfileController) {
         let vc = SetCarbRatiosController()
+        vc.coordinator = self
+        vc.modalPresentationStyle = .fullScreen
         controller.present(vc, animated: true, completion: nil)
     }
     
