@@ -20,18 +20,8 @@ class SetCarbRatiosController: UIViewController {
         dateFormatter.dateFormat = "HH a"
         return dateFormatter
     }()
-    var sliderStartValue: Int = 0 {
-        didSet {
-            let difference =  sliderEndValue - sliderStartValue
-            ratioTextField.text = String(difference)
-        }
-    }
-    var sliderEndValue: Int = 0 {
-        didSet {
-            let difference = sliderEndValue - sliderStartValue
-            ratioTextField.text = String(difference)
-        }
-    }
+    var startTime: Int = 12
+    var endTime: Int = 2
     
     // MARK: Views
     let timeSegmentedControl: UISegmentedControl = {
@@ -104,7 +94,7 @@ class SetCarbRatiosController: UIViewController {
         textField.setUnderlineColor(color: .secondaryColor)
         textField.textColor = .secondaryColor
         textField.textAlignment = .center
-        textField.font = UIFont(name: Constants.fontName, size: 18.0) // temporary while testing
+        textField.font = UIFont(name: Constants.fontName, size: 30.0)
         textField.keyboardType = .numberPad
         textField.doneAccessory = true
         return textField
@@ -216,25 +206,9 @@ class SetCarbRatiosController: UIViewController {
         let minutes = value / 60
         let adjustedMinutes =  ceil(minutes / 5.0) * 5
         value = adjustedMinutes * 60
-        print(value)
     }
     
-    @objc func selectedSegmentDidChange() {
-        // store in military time determined by whether AM or PM is selected
-        // future: make colors darker if it's PM
-    }
-    
-    @objc func sliderValueDidChange() {
-        print("start")
-        adjustValue(value: &circularSlider.startPointValue)
-        print("end")
-        adjustValue(value: &circularSlider.endPointValue)
-        print("----------")
-        var startTime = Int(floor(circularSlider.startPointValue / (60 * 60)))
-        if startTime == 0 {
-            startTime = 12
-        }
-        let endTime = Int(floor(circularSlider.endPointValue / (60 * 60)))
+    fileprivate func setTimeLabelsText() {
         if timeSegmentedControl.selectedSegmentIndex == 0 {
             startTimeLabel.text = "\(startTime)AM"
             endTimeLabel.text = "\(endTime)AM"
@@ -244,10 +218,24 @@ class SetCarbRatiosController: UIViewController {
         }
     }
     
+    @objc func selectedSegmentDidChange() {
+        setTimeLabelsText()
+        // store in military time determined by whether AM or PM is selected
+        // future: make colors darker if it's PM
+    }
+    
+    @objc func sliderValueDidChange() {
+        adjustValue(value: &circularSlider.startPointValue)
+        adjustValue(value: &circularSlider.endPointValue)
+        startTime = Int(floor(circularSlider.startPointValue / (60 * 60)))
+        if startTime == 0 {
+            startTime = 12
+        }
+        endTime = Int(floor(circularSlider.endPointValue / (60 * 60)))
+        setTimeLabelsText()
+    }
+    
     @objc func saveRatio() {
         ratioTextField.text = ""
-        let difference = sliderEndValue - sliderStartValue
-        circularSlider.startPointValue = circularSlider.endPointValue
-        circularSlider.endPointValue = CGFloat(sliderEndValue) + CGFloat(difference)
     }
 }
