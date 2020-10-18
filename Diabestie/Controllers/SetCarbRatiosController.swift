@@ -43,10 +43,6 @@ class SetCarbRatiosController: UIViewController {
         slider.endThumbTintColor = .accentColor
         slider.lineWidth = 12.0
         slider.backtrackLineWidth = 10.0
-        let dayInSeconds = 12 * 60 * 60
-        slider.maximumValue = CGFloat(dayInSeconds)
-        slider.startPointValue = 0
-        slider.endPointValue = 2 * 60 * 60
         slider.addTarget(self, action: #selector(sliderValueDidChange), for: .valueChanged)
         return slider
     }()
@@ -130,6 +126,18 @@ class SetCarbRatiosController: UIViewController {
     }
     
     fileprivate func setUpCircularSlider() {
+        // set up start and end points
+        let dayInSeconds = 12 * 60 * 60
+        circularSlider.maximumValue = CGFloat(dayInSeconds)
+        circularSlider.startPointValue = 0
+        circularSlider.endPointValue = 2 * 60 * 60
+        // set start and end thumb properties
+        circularSlider.thumbLineWidth = 5.0
+        circularSlider.startThumbStrokeColor = .primaryColor
+        circularSlider.startThumbStrokeHighlightedColor = .secondaryColor
+        circularSlider.endThumbStrokeColor = .primaryColor
+        circularSlider.endThumbStrokeHighlightedColor = .secondaryColor
+        // add hours image
         let hoursImage = UIImage(named: "Hours")!
         let hoursImageView = UIImageView(image: hoursImage)
         circularSlider.addSubview(hoursImageView)
