@@ -25,12 +25,6 @@ class SetCarbRatiosController: UIViewController {
     var endTime: Int = 2
     
     // MARK: Views
-    let timeSegmentedControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: ["AM", "PM"])
-        control.selectedSegmentIndex = 0
-        control.addTarget(self, action: #selector(selectedSegmentDidChange), for: .valueChanged)
-        return control
-    }()
     let startTimeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: Constants.fontName, size: 30.0)
@@ -147,12 +141,12 @@ class SetCarbRatiosController: UIViewController {
         }
         ratioAndLabelStackView.addArrangedSubview(ratioStackView)
         ratioAndLabelStackView.addArrangedSubview(carbRatioLabel)
-        view.addSubview(timeSegmentedControl)
-        timeSegmentedControl.snp.makeConstraints { (make) in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+        view.addSubview(timeStackView)
+        timeStackView.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(45)
             make.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.6)
-            make.height.equalTo(40)
+            make.width.equalToSuperview().multipliedBy(0.9)
+            make.height.equalToSuperview().multipliedBy(0.1)
         }
         view.addSubview(circularSlider)
         circularSlider.snp.makeConstraints { (make) in
@@ -164,13 +158,6 @@ class SetCarbRatiosController: UIViewController {
             make.center.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.3)
             make.width.equalToSuperview().multipliedBy(0.5)
-        }
-        view.addSubview(timeStackView)
-        timeStackView.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.width.equalToSuperview().multipliedBy(0.9)
-            make.height.equalToSuperview().multipliedBy(0.1)
-            make.bottom.equalTo(circularSlider.snp_topMargin).offset(-20)
         }
         view.addSubview(saveRatioButton)
         saveRatioButton.snp.makeConstraints { (make) in
@@ -242,25 +229,13 @@ class SetCarbRatiosController: UIViewController {
     }
     
     @objc func saveRatio() {
-//        var ratioStartTime = startTime
-//        var ratioEndTime = endTime
-//        guard let ratio = ratioTextField.text, let ratioInt = Int(ratio) else {
-//            self.presentAlert(title: "Please input your carb ratio as a number.")
-//            return
-//        }
-//        if timeSegmentedControl.selectedSegmentIndex == 0 {
-//            if ratioStartTime == 12 {
-//                ratioStartTime = 0
-//            }
-//        } else {
-//            if ratioStartTime > 12 {
-//                ratioStartTime += 12
-//            }
-//            ratioEndTime += 12
-//        }
-//        let carbRatio = CarbRatio(startTime: ratioStartTime, endTime: ratioEndTime, ratio: ratioInt)
-//        carbRatioService.ratios.append(carbRatio)
-//        carbRatioService.saveRatios()
+        guard let ratio = ratioTextField.text, let ratioInt = Int(ratio) else {
+            self.presentAlert(title: "Please input your carb ratio as a number.")
+            return
+        }
+        let carbRatio = CarbRatio(startTime: startTime, endTime: endTime, ratio: ratioInt)
+        carbRatioService.ratios.append(carbRatio)
+        carbRatioService.saveRatios()
         ratioTextField.text = ""
     }
 }
