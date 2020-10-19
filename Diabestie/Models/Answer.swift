@@ -17,9 +17,13 @@ struct Answer {
     var lastCorrectionUnits: Double
     
     func calculateFoodUnits() -> Double {
-        let ratio = 6.0
+        let carbRatioService = CarbRatioService()
+        guard let ratio = carbRatioService.getRatioForTime() else {
+            return 0
+        }
         if eatingNow {
-            return round((numCarbs / ratio) * 10) / 10
+            print("ratio \(ratio)")
+            return round((numCarbs / Double(ratio)) * 10) / 10
         }  else {
             return 0
         }

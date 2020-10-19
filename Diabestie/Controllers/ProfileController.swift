@@ -131,7 +131,7 @@ class ProfileController: UIViewController {
             make.top.equalTo(myStatsLabel.snp_bottomMargin).offset(30)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.85)
-            make.height.equalToSuperview().multipliedBy(0.35)
+            make.height.equalToSuperview().multipliedBy(0.3)
         }
         // constraints for isfStackView
         isfStackView = StackViewWithLabelAndTextField(frame: .zero, label: isfLabel)
@@ -164,7 +164,7 @@ class ProfileController: UIViewController {
         }
         view.addSubview(carbRatioStackView)
         carbRatioStackView.snp.makeConstraints { (make) in
-            make.top.equalTo(saveButton.snp_bottomMargin).offset(15)
+            make.top.equalTo(saveButton.snp_bottomMargin).offset(25)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.85)
             make.height.equalTo(50)
@@ -183,7 +183,7 @@ class ProfileController: UIViewController {
             make.width.equalToSuperview().multipliedBy(0.85)
             make.centerX.equalToSuperview()
             make.top.equalTo(carbRatioLabel.snp_bottomMargin).offset(20)
-            make.height.equalToSuperview().multipliedBy(0.3)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
     }

@@ -24,15 +24,32 @@ class CarbRatioService {
     
     // MARK: Properties
     var ratios: [CarbRatio] = []
+//    let hour = Calendar.current.component(.hour, from: Date())
+    let hour = 5
     
     // MARK: Methods
-    public func saveRatios(){
+    public func getRatioForTime() -> Int? {
+        guard let carbRatios = getRatios() else {
+            return nil
+        }
+        for ratio in carbRatios {
+            print("start time: \(ratio.startTime)")
+            print("end time: \(ratio.endTime)")
+            print("hour: \(hour)")
+            if ratio.startTime <= hour && ratio.endTime <= hour {
+                return ratio.ratio
+            }
+        }
+        return nil
+    }
+    
+    public func saveRatios() {
         let ratioData = try! JSONEncoder().encode(ratios)
         UserDefaults.standard.set(ratioData, forKey: "ratios")
         UserDefaults.standard.set(true, forKey: "hasRatios")
     }
 
-    public func getRatios() -> [CarbRatio]?{
+    public func getRatios() -> [CarbRatio]? {
         let ratioData = UserDefaults.standard.data(forKey: "ratios")
         let ratioArray = try! JSONDecoder().decode([CarbRatio].self, from: ratioData!)
         return ratioArray
