@@ -29,6 +29,7 @@ class CarbRatioService {
     public func saveRatios(){
         let ratioData = try! JSONEncoder().encode(ratios)
         UserDefaults.standard.set(ratioData, forKey: "ratios")
+        UserDefaults.standard.set(true, forKey: "hasRatios")
     }
 
     public func getRatios() -> [CarbRatio]?{

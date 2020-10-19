@@ -11,11 +11,21 @@ import UIKit
 import HGCircularSlider
 import SnapKit
 
+// TODO: allow user to update ratios
+//      first, check if a particular ratio is already saved
+//      if so, rewrite that ratio's ratio to the new carb ratio
+//      otherwise, check if the new ratio overlaps with any other ratios
+//      if so, either replace the old ratios with the new one and have the user reenter values for the
+//      uncovered areas of the old ratios OR keep those ratios and only rewrite the overlap
+// TODO: show user which ratios already have values by highlighting covered areas of the slider
+// TODO: show the user what their already inputted ratios are in the ratioTextField
+
 class SetCarbRatiosController: UIViewController {
     
     // MARK: Properties
     var coordinator: TabBarCoordinator!
     let carbRatioService = CarbRatioService()
+    var allRatios: [CarbRatio] = []
     lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH a"
@@ -120,12 +130,26 @@ class SetCarbRatiosController: UIViewController {
         button.addTarget(self, action: #selector(saveRatio), for: .touchUpInside)
         return button
     }()
+    let doneEditingButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Done Editing", for: .normal)
+        button.titleLabel?.font = UIFont(name: Constants.fontName, size: 20.0)
+        button.titleLabel?.textColor = .white
+        button.addTarget(self, action: #selector(saveAllRatios), for: .touchUpInside)
+        return button
+    }()
+
     
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpView()
         setUpCircularSlider()
+        let hasRatios = UserDefaults.standard.bool(forKey: "hasRatios")
+        if hasRatios {
+            guard let ratios = carbRatioService.getRatios() else { return }
+            allRatios = ratios
+        }
     }
     
     // MARK: Methods
@@ -143,7 +167,7 @@ class SetCarbRatiosController: UIViewController {
         ratioAndLabelStackView.addArrangedSubview(carbRatioLabel)
         view.addSubview(timeStackView)
         timeStackView.snp.makeConstraints { (make) in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(45)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(50)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.9)
             make.height.equalToSuperview().multipliedBy(0.1)
@@ -164,6 +188,12 @@ class SetCarbRatiosController: UIViewController {
             make.top.equalTo(circularSlider.snp_bottomMargin).offset(30)
             make.width.equalToSuperview().multipliedBy(0.6)
             make.centerX.equalToSuperview()
+            make.height.equalTo(45)
+        }
+        view.addSubview(doneEditingButton)
+        doneEditingButton.snp.makeConstraints { (make) in
+            make.top.equalTo(saveRatioButton.snp_bottomMargin).offset(30)
+            make.width.equalToSuperview()
             make.height.equalTo(45)
         }
     }
@@ -234,8 +264,13 @@ class SetCarbRatiosController: UIViewController {
             return
         }
         let carbRatio = CarbRatio(startTime: startTime, endTime: endTime, ratio: ratioInt)
-        carbRatioService.ratios.append(carbRatio)
-        carbRatioService.saveRatios()
+        allRatios.append(carbRatio)
         ratioTextField.text = ""
+    }
+    
+    @objc func saveAllRatios() {
+        carbRatioService.ratios = allRatios
+        carbRatioService.saveRatios()
+        coordinator.goBackToProfileController(controller: self)
     }
 }

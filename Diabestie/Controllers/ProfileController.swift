@@ -14,6 +14,8 @@ class ProfileController: UIViewController {
     
     // MARK: Properties
     var coordinator: TabBarCoordinator!
+    let carbRatioService = CarbRatioService()
+    var carbRatios: [CarbRatio]!
     
     // MARK: Views
     let myStatsLabel: UILabel = {
@@ -103,6 +105,15 @@ class ProfileController: UIViewController {
         carbRatioTableView.delegate = self
         setUpViews()
         setStatsTextFields()
+        if UserDefaults.standard.bool(forKey: "hasRatios") {
+            guard let ratios = carbRatioService.getRatios() else {
+                carbRatios = []
+                return
+            }
+            carbRatios = ratios
+        } else {
+            carbRatios = []
+        }
     }
     
     // MARK: Methods
@@ -144,9 +155,16 @@ class ProfileController: UIViewController {
             make.width.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.275)
         }
+        view.addSubview(saveButton)
+        saveButton.snp.makeConstraints { (make) in
+            make.top.equalTo(containerStackView.snp_bottomMargin).offset(20)
+            make.width.equalToSuperview().multipliedBy(0.6)
+            make.height.equalToSuperview().multipliedBy(0.05)
+            make.centerX.equalToSuperview()
+        }
         view.addSubview(carbRatioStackView)
         carbRatioStackView.snp.makeConstraints { (make) in
-            make.top.equalTo(containerStackView.snp_bottomMargin).offset(15)
+            make.top.equalTo(saveButton.snp_bottomMargin).offset(15)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.85)
             make.height.equalTo(50)
@@ -165,15 +183,9 @@ class ProfileController: UIViewController {
             make.width.equalToSuperview().multipliedBy(0.85)
             make.centerX.equalToSuperview()
             make.top.equalTo(carbRatioLabel.snp_bottomMargin).offset(20)
-            make.height.equalToSuperview().multipliedBy(0.22)
+            make.height.equalToSuperview().multipliedBy(0.3)
         }
-        view.addSubview(saveButton)
-        saveButton.snp.makeConstraints { (make) in
-            make.top.equalTo(carbRatioTableView.snp_bottomMargin).offset(20)
-            make.width.equalToSuperview().multipliedBy(0.6)
-            make.height.equalToSuperview().multipliedBy(0.05)
-            make.centerX.equalToSuperview()
-        }
+        
     }
     
     fileprivate func setStatsTextFields() {
@@ -185,6 +197,18 @@ class ProfileController: UIViewController {
             isfStackView.textField.text = isf
             targetBGStackView.textField.text = targetBG
             insulinDurationStackView.textField.text = insulinDuration
+        }
+    }
+    
+    fileprivate func setTime(with time: Int) -> String {
+        if time == 0  || time == 24 {
+            return "12AM"
+        } else if time == 12 {
+            return "12PM"
+        } else if time < 12 {
+            return "\(time)AM"
+        } else {
+            return "\(time % 12)PM"
         }
     }
     
@@ -223,13 +247,17 @@ extension ProfileController: UITableViewDelegate {
 
 extension ProfileController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return carbRatios.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CarbRatioCell.identifier) as! CarbRatioCell
-        cell.time = "12am-2am"
-        cell.ratio = "4:1"
+        let carbRatio = carbRatios[indexPath.row]
+        let startTime = setTime(with: carbRatio.startTime)
+        let endTime = setTime(with: carbRatio.endTime)
+        let ratio = carbRatio.ratio
+        cell.time = "\(startTime) - \(endTime)"
+        cell.ratio = "1:\(ratio)"
         cell.setLabelText()
         return cell
     }
