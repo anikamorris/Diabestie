@@ -11,6 +11,7 @@
 		CF02F06A253A552500CF7258 /* UITextField+NumberPadDoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF02F069253A552500CF7258 /* UITextField+NumberPadDoneButton.swift */; };
 		CF02F06E253A68D200CF7258 /* UIViewController+PresentAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF02F06D253A68D200CF7258 /* UIViewController+PresentAlert.swift */; };
 		CF02F076253D307800CF7258 /* CarbRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF02F075253D307600CF7258 /* CarbRatio.swift */; };
+		CF02F079253D60DF00CF7258 /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF02F078253D60DE00CF7258 /* UserDefaultsKeys.swift */; };
 		CF4AC95924D3941200275A88 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4AC95824D3941200275A88 /* AppDelegate.swift */; };
 		CF4AC95B24D3941200275A88 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4AC95A24D3941200275A88 /* SceneDelegate.swift */; };
 		CF4AC96024D3941200275A88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF4AC95E24D3941200275A88 /* Main.storyboard */; };
@@ -39,6 +40,7 @@
 		CF02F069253A552500CF7258 /* UITextField+NumberPadDoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+NumberPadDoneButton.swift"; sourceTree = "<group>"; };
 		CF02F06D253A68D200CF7258 /* UIViewController+PresentAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+PresentAlert.swift"; sourceTree = "<group>"; };
 		CF02F075253D307600CF7258 /* CarbRatio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbRatio.swift; sourceTree = "<group>"; };
+		CF02F078253D60DE00CF7258 /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
 		CF4AC95524D3941200275A88 /* Diabestie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diabestie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF4AC95824D3941200275A88 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CF4AC95A24D3941200275A88 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 			children = (
 				CF86213825367B2400427FB7 /* Extensions */,
 				CF8621572537B45500427FB7 /* Constants.swift */,
+				CF02F078253D60DE00CF7258 /* UserDefaultsKeys.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 				CF86215E2537CD7A00427FB7 /* SetCarbRatiosController.swift in Sources */,
 				CF9C8CEB2539004F00128C21 /* Answer.swift in Sources */,
 				CF8621582537B45500427FB7 /* Constants.swift in Sources */,
+				CF02F079253D60DF00CF7258 /* UserDefaultsKeys.swift in Sources */,
 				CF8621612537CFD000427FB7 /* Question.swift in Sources */,
 				CF86216C2538F5E700427FB7 /* QuestionView.swift in Sources */,
 				CF86213F25367E1200427FB7 /* Coordinator.swift in Sources */,

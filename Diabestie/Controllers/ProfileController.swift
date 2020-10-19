@@ -105,7 +105,7 @@ class ProfileController: UIViewController {
         carbRatioTableView.delegate = self
         setUpViews()
         setStatsTextFields()
-        if UserDefaults.standard.bool(forKey: "hasRatios") {
+        if UserDefaults.standard.bool(forKey: UserDefaultsKeys.hasRatios) {
             guard let ratios = carbRatioService.getRatios() else {
                 carbRatios = []
                 return
@@ -189,11 +189,11 @@ class ProfileController: UIViewController {
     }
     
     fileprivate func setStatsTextFields() {
-        let hasSavedStats = UserDefaults.standard.bool(forKey: "hasSavedStats")
+        let hasSavedStats = UserDefaults.standard.bool(forKey: UserDefaultsKeys.hasSavedStats)
         if hasSavedStats {
-            let isf = UserDefaults.standard.string(forKey: "isf")
-            let targetBG = UserDefaults.standard.string(forKey: "targetBG")
-            let insulinDuration = UserDefaults.standard.string(forKey: "insulinDuration")
+            let isf = UserDefaults.standard.string(forKey: UserDefaultsKeys.isf)
+            let targetBG = UserDefaults.standard.string(forKey: UserDefaultsKeys.targetBG)
+            let insulinDuration = UserDefaults.standard.string(forKey: UserDefaultsKeys.insulinDuration)
             isfStackView.textField.text = isf
             targetBGStackView.textField.text = targetBG
             insulinDurationStackView.textField.text = insulinDuration
@@ -227,10 +227,10 @@ class ProfileController: UIViewController {
             self.presentAlert(title: "Please input all stats.")
             return
         }
-        UserDefaults.standard.setValue(isf, forKey: "isf")
-        UserDefaults.standard.setValue(targetBG, forKey: "targetBG")
-        UserDefaults.standard.setValue(insulinDuration, forKey: "insulinDuration")
-        UserDefaults.standard.setValue(true, forKey: "hasSavedStats")
+        UserDefaults.standard.setValue(isf, forKey: UserDefaultsKeys.isf)
+        UserDefaults.standard.setValue(targetBG, forKey: UserDefaultsKeys.targetBG)
+        UserDefaults.standard.setValue(insulinDuration, forKey: UserDefaultsKeys.insulinDuration)
+        UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.hasSavedStats)
         self.presentAlert(title: "Stats successfully saved!")
     }
 }

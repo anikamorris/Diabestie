@@ -30,9 +30,9 @@ struct Answer {
     }
     
     func calculateCorrectionUnits() -> Double {
-        let targetBGStr = UserDefaults.standard.string(forKey: "targetBG")
-        let isfStr = UserDefaults.standard.string(forKey: "isf")
-        let insulinDurationStr = UserDefaults.standard.string(forKey: "insulinDuration")
+        let targetBGStr = UserDefaults.standard.string(forKey: UserDefaultsKeys.targetBG)
+        let isfStr = UserDefaults.standard.string(forKey: UserDefaultsKeys.isf)
+        let insulinDurationStr = UserDefaults.standard.string(forKey: UserDefaultsKeys.insulinDuration)
         guard let targetBG = Double(targetBGStr!),
               let isf = Double(isfStr!),
               let insulinDuration = Double(insulinDurationStr!) else {

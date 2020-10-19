@@ -32,9 +32,6 @@ class CarbRatioService {
             return nil
         }
         for ratio in carbRatios {
-            print("start time: \(ratio.startTime)")
-            print("end time: \(ratio.endTime)")
-            print("hour: \(hour)")
             if ratio.startTime <= hour && ratio.endTime > hour {
                 return ratio.ratio
             }
@@ -44,12 +41,12 @@ class CarbRatioService {
     
     public func saveRatios() {
         let ratioData = try! JSONEncoder().encode(ratios)
-        UserDefaults.standard.set(ratioData, forKey: "ratios")
-        UserDefaults.standard.set(true, forKey: "hasRatios")
+        UserDefaults.standard.set(ratioData, forKey: UserDefaultsKeys.ratios)
+        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.hasRatios)
     }
 
     public func getRatios() -> [CarbRatio]? {
-        let ratioData = UserDefaults.standard.data(forKey: "ratios")
+        let ratioData = UserDefaults.standard.data(forKey: UserDefaultsKeys.ratios)
         let ratioArray = try! JSONDecoder().decode([CarbRatio].self, from: ratioData!)
         return ratioArray
     }

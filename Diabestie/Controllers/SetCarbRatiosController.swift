@@ -145,7 +145,7 @@ class SetCarbRatiosController: UIViewController {
         super.viewDidLoad()
         setUpView()
         setUpCircularSlider()
-        let hasRatios = UserDefaults.standard.bool(forKey: "hasRatios")
+        let hasRatios = UserDefaults.standard.bool(forKey: UserDefaultsKeys.hasRatios)
         if hasRatios {
             guard let ratios = carbRatioService.getRatios() else { return }
             allRatios = ratios
