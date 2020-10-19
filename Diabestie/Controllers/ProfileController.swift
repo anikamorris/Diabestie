@@ -136,6 +136,7 @@ class ProfileController: UIViewController {
         }
         // constraints for isfStackView
         isfStackView = StackViewWithLabelAndTextField(frame: .zero, label: isfLabel)
+        
         containerStackView.addArrangedSubview(isfStackView)
         isfStackView.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
@@ -211,6 +212,59 @@ class ProfileController: UIViewController {
         } else {
             return "\(time % 12)PM"
         }
+    }
+    
+    @objc func isfDoneButtonTapped(textField: UITextField) {
+        if textField == isfStackView.textField {
+            guard let isf = textField.text else {
+                self.presentAlert(title: "Please input your insulin sensitivity factor.")
+                return
+            }
+            if isf == "" {
+                self.presentAlert(title: "Please input your insulin sensitivity factor.")
+                return
+            }
+            UserDefaults.standard.setValue(isf, forKey: UserDefaultsKeys.isf)
+        } else if textField == targetBGStackView.textField {
+            guard let targetBG = textField.text else {
+                self.presentAlert(title: "Please input your target blood glucose level.")
+                return
+            }
+            if targetBG == "" {
+                self.presentAlert(title: "Please input your target blood glucose level.")
+                return
+            }
+            UserDefaults.standard.setValue(targetBG, forKey: UserDefaultsKeys.targetBG)
+        } else if textField == insulinDurationStackView.textField {
+            guard let insulinDuration = textField.text else {
+                self.presentAlert(title: "Please input your insulin duration in hours.")
+                return
+            }
+            if insulinDuration == "" {
+                self.presentAlert(title: "Please input your insulin duration in hours.")
+                return
+            }
+            UserDefaults.standard.setValue(insulinDuration, forKey: UserDefaultsKeys.insulinDuration)
+        }
+        textField.resignFirstResponder()
+    }
+    
+    @objc func targetBGDoneButtonTapped(sender: UITextField) {
+        if sender == targetBGStackView.textField {
+            guard let targetBG = sender.text else {
+                self.presentAlert(title: "Please input your target blood glucose level.")
+                return
+            }
+            if targetBG == "" {
+                self.presentAlert(title: "Please input your target blood glucose level.")
+                return
+            }
+            UserDefaults.standard.setValue(targetBG, forKey: UserDefaultsKeys.targetBG)
+        }
+    }
+    
+    @objc func insulinDurationDoneButtonTapped() {
+        
     }
     
     @objc func refreshTableView() {
