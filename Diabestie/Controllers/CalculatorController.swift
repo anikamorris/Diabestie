@@ -243,20 +243,24 @@ class CalculatorController: UIViewController {
         numberInputTextField.isHidden = true
     }
     
-    fileprivate func castResponseToDouble() -> Double {
-        let response = numberInputTextField.text
-        if response == "" {
-            self.presentAlert(title: "Please input a number.")
+    fileprivate func castResponseToDouble() -> Double? {
+        if currentIndex >= 2 {
+            let response = numberInputTextField.text
+            if response == "" {
+                self.presentAlert(title: "Please input a number.")
+                return nil
+            }
+            guard let num = Double(response!) else {
+                self.presentAlert(title: "Please input a number.")
+                return nil
+            }
+            return num
+        } else {
+            return 0
         }
-        guard let num = Double(response!) else {
-            self.presentAlert(title: "Please input a number.")
-            return 0.0
-        }
-        return num
     }
     
-    fileprivate func saveNumber() {
-        let num = castResponseToDouble()
+    fileprivate func saveNumber(num: Double) {
         if questionViews.count == 3 { // there are 3 questions, user answered no to first two questions
             answer.currentBG = num
         } else if questionViews.count == 4 { // there are 4 questions, user answered yes to only the second question
@@ -339,13 +343,17 @@ class CalculatorController: UIViewController {
     }
     
     @objc func nextButtonTapped() {
+        guard let num = castResponseToDouble() else {
+            self.presentAlert(title: "Please input a number.")
+            return
+        }
         segmentedControl.selectedSegmentIndex = UISegmentedControl.noSegment
         if currentIndex < questionViews.count - 1 {
             showNextQuestion()
         } else {
             animateFadeOut(questionViews[currentIndex])
             currentIndex += 1
-            saveNumber()
+            saveNumber(num: num)
             showUnits()
             return
         }
@@ -360,7 +368,7 @@ class CalculatorController: UIViewController {
             segmentedControl.isHidden = false
             numberInputTextField.isHidden = true
         } else { // user is past currentBG question
-            saveNumber()
+            saveNumber(num: num)
             numberInputTextField.text = ""
         }
     }

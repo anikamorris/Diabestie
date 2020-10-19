@@ -101,6 +101,7 @@ class ProfileController: UIViewController {
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: NSNotification.Name(rawValue: "RatiosAdded"), object: nil)
         carbRatioTableView.dataSource = self
         carbRatioTableView.delegate = self
         setUpViews()
@@ -210,6 +211,15 @@ class ProfileController: UIViewController {
         } else {
             return "\(time % 12)PM"
         }
+    }
+    
+    @objc func refreshTableView() {
+        guard let ratios = carbRatioService.getRatios() else {
+            carbRatios = []
+            return
+        }
+        carbRatios = ratios
+        carbRatioTableView.reloadData()
     }
     
     @objc func editButtonTapped() {

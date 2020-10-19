@@ -22,7 +22,6 @@ struct Answer {
             return 0
         }
         if eatingNow {
-            print("ratio \(ratio)")
             return round((numCarbs / Double(ratio)) * 10) / 10
         }  else {
             return 0

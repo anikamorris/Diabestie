@@ -263,7 +263,11 @@ class SetCarbRatiosController: UIViewController {
             self.presentAlert(title: "Please input your carb ratio as a number.")
             return
         }
-        let carbRatio = CarbRatio(startTime: startTime, endTime: endTime, ratio: ratioInt)
+        var start = startTime
+        if start == 24 {
+            start = 0
+        }
+        let carbRatio = CarbRatio(startTime: start, endTime: endTime, ratio: ratioInt)
         allRatios.append(carbRatio)
         ratioTextField.text = ""
     }
@@ -271,6 +275,7 @@ class SetCarbRatiosController: UIViewController {
     @objc func saveAllRatios() {
         carbRatioService.ratios = allRatios
         carbRatioService.saveRatios()
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RatiosAdded"), object: nil)
         coordinator.goBackToProfileController(controller: self)
     }
 }

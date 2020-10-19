@@ -32,6 +32,7 @@ class CarbRatioService {
             return nil
         }
         for ratio in carbRatios {
+            print("startTime: \(ratio.startTime)")
             if ratio.startTime <= hour && ratio.endTime > hour {
                 return ratio.ratio
             }
