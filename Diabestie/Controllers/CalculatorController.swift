@@ -104,6 +104,8 @@ class CalculatorController: UIViewController {
         questionLabels = [anyCorrectionsView.questionLabel, eatingNowView.questionLabel, currentBGView.questionLabel]
         setQuestionText()
         setUpInitialView()
+//        animateQuestionAccelerateOut(anyCorrectionsView)
+        animateViewDropIn(anyCorrectionsView)
         numberInputTextField.delegate = self
     }
     
@@ -161,7 +163,7 @@ class CalculatorController: UIViewController {
         buttonStackView.addArrangedSubview(backButton)
         buttonStackView.addArrangedSubview(nextButton)
         setTotalUnitsViewConstraints()
-        hideAllViewsExceptFirst()
+        hideAllViews()
     }
     
     fileprivate func setQuestionViewConstraints(view: QuestionView) {
@@ -188,10 +190,11 @@ class CalculatorController: UIViewController {
         }
     }
     
-    fileprivate func hideAllViewsExceptFirst() {
+    fileprivate func hideAllViews() {
         nextButton.isHidden = true
         backButton.isHidden = true
         numberInputTextField.isHidden = true
+        anyCorrectionsView.isHidden = true
         eatingNowView.isHidden = true
         currentBGView.isHidden = true
         numCarbsView.isHidden = true
@@ -375,9 +378,13 @@ class CalculatorController: UIViewController {
     
     @objc func backButtonTapped() {
         animateQuestionAccelerateOut(questionViews[currentIndex])
+        
         currentIndex -= 1
         animateFadeIn(questionViews[currentIndex])
         animateFadeIn(questionLabels[currentIndex])
+        
+        restorePlacementOfAcceleratedOut(questionViews[currentIndex])
+        restorePlacementOfAcceleratedOut(questionLabels[currentIndex])
         if currentIndex == 0 {
             backButton.isHidden = true
         } else if currentIndex < 2 {
@@ -404,10 +411,12 @@ class CalculatorController: UIViewController {
 // MARK: Animations
 extension CalculatorController {
     fileprivate func animateFadeOut(_ animatedView: UIView) {
+        print("view: \(animatedView)")
         animatedView.animate([.duration(0.2),
                               .fadeOut,
                               .background(color: .clear)
-                            ], completion: { [weak self] in self?.animateQuestionAccelerateOut(animatedView)}
+                            ], completion: { [weak self] in
+                                self?.animateQuestionAccelerateOut(animatedView)}
                             )
     }
     
@@ -457,11 +466,21 @@ extension CalculatorController {
     }
     
     fileprivate func animateFadeIn(_ animatedView: UIView) {
-        animatedView.animate([.delay(0.2),
-                              .duration(0.4),
-                              .fadeIn,
+        let yDistance = animatedView.bounds.height
+        animatedView.animate([.delay(0),
+                              .duration(0),
+                              .translate(x: 0,
+                                         y: yDistance,
+                                         z: 1),
                               .background(color: .primaryColor)
-                            ])
+                            ], completion: {
+                                animatedView.animate([.delay(0.2),
+                                                      .duration(0.4),
+                                                      .fadeIn,
+                                                      .background(color: .primaryColor)
+                                                    ])
+                            })
+        
     }
     
     fileprivate func animateQuestionAccelerateOut(_ animatedView: UIView) {
@@ -469,6 +488,14 @@ extension CalculatorController {
         animatedView.animate([.duration(0.4),
                               .translate(x: 0, y: -yDistance),
                               .timingFunction(.acceleration)
+                            ])
+    }
+    
+    fileprivate func restorePlacementOfAcceleratedOut(_ animatedView: UIView) {
+        let yDistance = animatedView.bounds.height
+        animatedView.animate([.duration(3.0),
+                              .translate(x: 0, y: yDistance),
+                              .background(color: .primaryColor)
                             ])
     }
 }
