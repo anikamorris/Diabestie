@@ -350,7 +350,12 @@ class CalculatorController: UIViewController {
             self.presentAlert(title: "Please input a number.")
             return
         }
-        segmentedControl.selectedSegmentIndex = UISegmentedControl.noSegment
+        if segmentedControl.selectedSegmentIndex == UISegmentedControl.noSegment {
+            self.presentAlert(title: "Please select an answer.")
+            return
+        } else {
+            segmentedControl.selectedSegmentIndex = UISegmentedControl.noSegment
+        }
         if currentIndex < questionViews.count - 1 {
             showNextQuestion()
         } else {
