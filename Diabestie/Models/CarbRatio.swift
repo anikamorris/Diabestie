@@ -24,8 +24,7 @@ class CarbRatioService {
     
     // MARK: Properties
     var ratios: [CarbRatio] = []
-//    let hour = Calendar.current.component(.hour, from: Date())
-    let hour = 5
+    let hour = Calendar.current.component(.hour, from: Date())
     
     // MARK: Methods
     public func getRatioForTime() -> Int? {
@@ -36,7 +35,7 @@ class CarbRatioService {
             print("start time: \(ratio.startTime)")
             print("end time: \(ratio.endTime)")
             print("hour: \(hour)")
-            if ratio.startTime <= hour && ratio.endTime <= hour {
+            if ratio.startTime <= hour && ratio.endTime > hour {
                 return ratio.ratio
             }
         }

@@ -31,7 +31,7 @@ class SetCarbRatiosController: UIViewController {
         dateFormatter.dateFormat = "HH a"
         return dateFormatter
     }()
-    var startTime: Int = 12
+    var startTime: Int = 0
     var endTime: Int = 2
     
     // MARK: Views
