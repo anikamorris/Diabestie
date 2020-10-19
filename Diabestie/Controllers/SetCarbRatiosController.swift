@@ -15,6 +15,7 @@ class SetCarbRatiosController: UIViewController {
     
     // MARK: Properties
     var coordinator: TabBarCoordinator!
+    let carbRatioService = CarbRatioService()
     lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH a"
@@ -63,6 +64,7 @@ class SetCarbRatiosController: UIViewController {
     }()
     let circularSlider: RangeCircularSlider = {
         let slider = RangeCircularSlider()
+        slider.numberOfRounds = 2
         slider.backgroundColor = .alertColor
         slider.diskColor = .alertColor
         slider.trackFillColor = .primaryColor
@@ -84,7 +86,7 @@ class SetCarbRatiosController: UIViewController {
     let ratioToOneLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: Constants.fontName, size: 30.0)
-        label.text = ": 1"
+        label.text = "1 :"
         label.textAlignment = .center
         label.textColor = .secondaryColor
         return label
@@ -138,11 +140,11 @@ class SetCarbRatiosController: UIViewController {
         timeStackView.addArrangedSubview(startTimeLabel)
         timeStackView.addArrangedSubview(hyphenLabel)
         timeStackView.addArrangedSubview(endTimeLabel)
+        ratioStackView.addArrangedSubview(ratioToOneLabel)
         ratioStackView.addArrangedSubview(ratioTextField)
         ratioTextField.snp.makeConstraints { (make) in
             make.width.equalTo(70)
         }
-        ratioStackView.addArrangedSubview(ratioToOneLabel)
         ratioAndLabelStackView.addArrangedSubview(ratioStackView)
         ratioAndLabelStackView.addArrangedSubview(carbRatioLabel)
         view.addSubview(timeSegmentedControl)
@@ -172,7 +174,7 @@ class SetCarbRatiosController: UIViewController {
         }
         view.addSubview(saveRatioButton)
         saveRatioButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-30)
+            make.top.equalTo(circularSlider.snp_bottomMargin).offset(30)
             make.width.equalToSuperview().multipliedBy(0.6)
             make.centerX.equalToSuperview()
             make.height.equalTo(45)
@@ -181,8 +183,8 @@ class SetCarbRatiosController: UIViewController {
     
     fileprivate func setUpCircularSlider() {
         // set up start and end points
-        let halfDayInSeconds = 12 * 60 * 60
-        circularSlider.maximumValue = CGFloat(halfDayInSeconds)
+        let dayInSeconds = 24 * 60 * 60
+        circularSlider.maximumValue = CGFloat(dayInSeconds)
         circularSlider.startPointValue = 0
         circularSlider.endPointValue = 2 * 60 * 60
         // set start and end thumb properties
@@ -209,12 +211,19 @@ class SetCarbRatiosController: UIViewController {
     }
     
     fileprivate func setTimeLabelsText() {
-        if timeSegmentedControl.selectedSegmentIndex == 0 {
-            startTimeLabel.text = "\(startTime)AM"
-            endTimeLabel.text = "\(endTime)AM"
+        setTimeLabel(for: startTimeLabel, with: startTime)
+        setTimeLabel(for: endTimeLabel, with: endTime)
+    }
+    
+    fileprivate func setTimeLabel(for label: UILabel, with time: Int) {
+        if time == 0  || time == 24 {
+            label.text = "12AM"
+        } else if time == 12 {
+            label.text = "12PM"
+        } else if time < 12 {
+            label.text = "\(time)AM"
         } else {
-            startTimeLabel.text = "\(startTime)PM"
-            endTimeLabel.text = "\(endTime)PM"
+            label.text = "\(time % 12)PM"
         }
     }
     
@@ -228,14 +237,30 @@ class SetCarbRatiosController: UIViewController {
         adjustValue(value: &circularSlider.startPointValue)
         adjustValue(value: &circularSlider.endPointValue)
         startTime = Int(floor(circularSlider.startPointValue / (60 * 60)))
-        if startTime == 0 {
-            startTime = 12
-        }
         endTime = Int(floor(circularSlider.endPointValue / (60 * 60)))
         setTimeLabelsText()
     }
     
     @objc func saveRatio() {
+//        var ratioStartTime = startTime
+//        var ratioEndTime = endTime
+//        guard let ratio = ratioTextField.text, let ratioInt = Int(ratio) else {
+//            self.presentAlert(title: "Please input your carb ratio as a number.")
+//            return
+//        }
+//        if timeSegmentedControl.selectedSegmentIndex == 0 {
+//            if ratioStartTime == 12 {
+//                ratioStartTime = 0
+//            }
+//        } else {
+//            if ratioStartTime > 12 {
+//                ratioStartTime += 12
+//            }
+//            ratioEndTime += 12
+//        }
+//        let carbRatio = CarbRatio(startTime: ratioStartTime, endTime: ratioEndTime, ratio: ratioInt)
+//        carbRatioService.ratios.append(carbRatio)
+//        carbRatioService.saveRatios()
         ratioTextField.text = ""
     }
 }

@@ -10,6 +10,7 @@
 		CB2E8479C7696257C34164BE /* Pods_Diabestie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26158C9391C98BC6A2825F43 /* Pods_Diabestie.framework */; };
 		CF02F06A253A552500CF7258 /* UITextField+NumberPadDoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF02F069253A552500CF7258 /* UITextField+NumberPadDoneButton.swift */; };
 		CF02F06E253A68D200CF7258 /* UIViewController+PresentAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF02F06D253A68D200CF7258 /* UIViewController+PresentAlert.swift */; };
+		CF02F076253D307800CF7258 /* CarbRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF02F075253D307600CF7258 /* CarbRatio.swift */; };
 		CF4AC95924D3941200275A88 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4AC95824D3941200275A88 /* AppDelegate.swift */; };
 		CF4AC95B24D3941200275A88 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4AC95A24D3941200275A88 /* SceneDelegate.swift */; };
 		CF4AC96024D3941200275A88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF4AC95E24D3941200275A88 /* Main.storyboard */; };
@@ -37,6 +38,7 @@
 		99AC9C144339E417CCD8D41B /* Pods-Diabestie.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diabestie.release.xcconfig"; path = "Target Support Files/Pods-Diabestie/Pods-Diabestie.release.xcconfig"; sourceTree = "<group>"; };
 		CF02F069253A552500CF7258 /* UITextField+NumberPadDoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+NumberPadDoneButton.swift"; sourceTree = "<group>"; };
 		CF02F06D253A68D200CF7258 /* UIViewController+PresentAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+PresentAlert.swift"; sourceTree = "<group>"; };
+		CF02F075253D307600CF7258 /* CarbRatio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbRatio.swift; sourceTree = "<group>"; };
 		CF4AC95524D3941200275A88 /* Diabestie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diabestie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF4AC95824D3941200275A88 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CF4AC95A24D3941200275A88 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 			children = (
 				CF8621602537CFD000427FB7 /* Question.swift */,
 				CF9C8CEA2539004F00128C21 /* Answer.swift */,
+				CF02F075253D307600CF7258 /* CarbRatio.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				CF4AC95924D3941200275A88 /* AppDelegate.swift in Sources */,
 				CF86215B2537B58100427FB7 /* CarbRatioCell.swift in Sources */,
 				CF4AC95B24D3941200275A88 /* SceneDelegate.swift in Sources */,
+				CF02F076253D307800CF7258 /* CarbRatio.swift in Sources */,
 				CF86214525367F8300427FB7 /* CalculatorController.swift in Sources */,
 				CF86214225367E2400427FB7 /* TabBarCoordinator.swift in Sources */,
 				CF9C8CEE253A18C500128C21 /* TotalUnitsView.swift in Sources */,
