@@ -280,8 +280,8 @@ class ProfileController: UIViewController {
     @objc func refreshTableView() {
         do {
             let ratios = try carbRatioService.getAllRatios()
+            carbRatios = []
             for ratio in ratios {
-                carbRatios = []
                 carbRatios.append(ratio)
             }
         } catch let error {

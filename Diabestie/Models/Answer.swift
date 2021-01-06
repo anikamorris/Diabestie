@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 struct Answer {
     var anyCorrections: Bool
@@ -17,7 +18,9 @@ struct Answer {
     var lastCorrectionUnits: Double
     
     func calculateFoodUnits() -> Double {
-        let carbRatioService = CarbRatioService()
+        let carbRatioService = RealmCarbRatioService()
+        let realm = try! Realm()
+        carbRatioService.realm = realm
         guard let ratio = carbRatioService.getRatioForTime() else {
             return 0
         }
