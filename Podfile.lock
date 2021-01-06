@@ -3,24 +3,34 @@ PODS:
   - Motion (3.1.3):
     - Motion/Core (= 3.1.3)
   - Motion/Core (3.1.3)
+  - Realm (10.5.0):
+    - Realm/Headers (= 10.5.0)
+  - Realm/Headers (10.5.0)
+  - RealmSwift (10.5.0):
+    - Realm (= 10.5.0)
   - SnapKit (5.0.1)
 
 DEPENDENCIES:
   - HGCircularSlider
   - Motion
+  - RealmSwift
   - SnapKit (~> 5.0.1)
 
 SPEC REPOS:
   trunk:
     - HGCircularSlider
     - Motion
+    - Realm
+    - RealmSwift
     - SnapKit
 
 SPEC CHECKSUMS:
   HGCircularSlider: afb1942743a2df156dcc7a3500216e523e14266b
   Motion: cf1e060e489f6661126374d5c60dbd2ed991605c
+  Realm: e1c22c3d83b229afb70ebc10e1771c91e9542d12
+  RealmSwift: 6fc078d9d3fd7e58c71bfdbb694e252462f112a5
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: 025911c8137311bb7e2cc02131883f627239fa88
+PODFILE CHECKSUM: 22ec61a4a44fc27dfd42b1a969e7b18fc648c57d
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0

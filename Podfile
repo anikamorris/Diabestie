@@ -14,4 +14,7 @@ target 'Diabestie' do
   # pod for question animation
   pod 'Motion'
 
+  # pod for persistence
+  pod 'RealmSwift'
+
 end
