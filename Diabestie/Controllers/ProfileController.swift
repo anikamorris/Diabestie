@@ -9,13 +9,14 @@
 import Foundation
 import UIKit
 import SnapKit
+import RealmSwift
 
 class ProfileController: UIViewController {
     
     // MARK: Properties
     var coordinator: TabBarCoordinator!
-    let carbRatioService = CarbRatioService()
-    var carbRatios: [CarbRatio]!
+    let carbRatioService = RealmCarbRatioService()
+    var carbRatios: [RealmCarbRatio] = []
     
     // MARK: Views
     let myStatsLabel: UILabel = {
@@ -106,19 +107,11 @@ class ProfileController: UIViewController {
         carbRatioTableView.delegate = self
         setUpViews()
         setStatsTextFields()
-        if UserDefaults.standard.bool(forKey: UserDefaultsKeys.hasRatios) {
-            guard let ratios = carbRatioService.getRatios() else {
-                carbRatios = []
-                return
-            }
-            carbRatios = ratios
-        } else {
-            carbRatios = []
-        }
+        setUpRatios()
     }
     
     // MARK: Methods
-    fileprivate func setUpViews() {
+    private func setUpViews() {
         view.backgroundColor = .backgroundColor
         view.addSubview(myStatsLabel)
         myStatsLabel.snp.makeConstraints { (make) in
@@ -187,10 +180,27 @@ class ProfileController: UIViewController {
             make.top.equalTo(carbRatioLabel.snp_bottomMargin).offset(20)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
-        
     }
     
-    fileprivate func setStatsTextFields() {
+    private func setUpRatios() {
+        let realm = try! Realm()
+        carbRatioService.realm = realm
+        if UserDefaults.standard.bool(forKey: UserDefaultsKeys.hasRatios) {
+            do {
+                let ratios = try carbRatioService.getAllRatios()
+                for ratio in ratios {
+                    carbRatios.append(ratio)
+                }
+            } catch let error {
+                print(error.localizedDescription)
+                carbRatios = []
+            }
+        } else {
+            carbRatios = []
+        }
+    }
+    
+    private func setStatsTextFields() {
         let hasSavedStats = UserDefaults.standard.bool(forKey: UserDefaultsKeys.hasSavedStats)
         if hasSavedStats {
             let isf = UserDefaults.standard.string(forKey: UserDefaultsKeys.isf)
@@ -202,7 +212,7 @@ class ProfileController: UIViewController {
         }
     }
     
-    fileprivate func setTime(with time: Int) -> String {
+    private func setTime(with time: Int) -> String {
         if time == 0  || time == 24 {
             return "12AM"
         } else if time == 12 {
@@ -268,11 +278,15 @@ class ProfileController: UIViewController {
     }
     
     @objc func refreshTableView() {
-        guard let ratios = carbRatioService.getRatios() else {
-            carbRatios = []
-            return
+        do {
+            let ratios = try carbRatioService.getAllRatios()
+            for ratio in ratios {
+                carbRatios = []
+                carbRatios.append(ratio)
+            }
+        } catch let error {
+            print(error.localizedDescription)
         }
-        carbRatios = ratios
         carbRatioTableView.reloadData()
     }
     
