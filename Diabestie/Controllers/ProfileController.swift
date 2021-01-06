@@ -15,6 +15,7 @@ class ProfileController: UIViewController {
     
     // MARK: Properties
     var coordinator: TabBarCoordinator!
+    let statsService = StatsService()
     let carbRatioService = RealmCarbRatioService()
     var carbRatios: [RealmCarbRatio] = []
     
@@ -106,8 +107,7 @@ class ProfileController: UIViewController {
         carbRatioTableView.dataSource = self
         carbRatioTableView.delegate = self
         setUpViews()
-        setStatsTextFields()
-        setUpRatios()
+        setUpServices()
     }
     
     // MARK: Methods
@@ -182,9 +182,11 @@ class ProfileController: UIViewController {
         }
     }
     
-    private func setUpRatios() {
-        let realm = try! Realm()
-        carbRatioService.realm = realm
+    private func setUpServices() {
+        let ratioRealm = try! Realm()
+        let statsRealm = try! Realm()
+        carbRatioService.realm = ratioRealm
+        statsService.realm = statsRealm
         if UserDefaults.standard.bool(forKey: UserDefaultsKeys.hasRatios) {
             do {
                 let ratios = try carbRatioService.getAllRatios()
@@ -198,18 +200,19 @@ class ProfileController: UIViewController {
         } else {
             carbRatios = []
         }
+        if UserDefaults.standard.bool(forKey: UserDefaultsKeys.hasSavedStats) {
+            let insulinDuration = statsService.getInsulinDuration()
+            let isf = statsService.getISF()
+            let targetBG = statsService.getTargetBG()
+            setStatsTextFields(insulinDuration: insulinDuration, isf: isf, targetBG: targetBG)
+        }
     }
     
-    private func setStatsTextFields() {
-        let hasSavedStats = UserDefaults.standard.bool(forKey: UserDefaultsKeys.hasSavedStats)
-        if hasSavedStats {
-            let isf = UserDefaults.standard.string(forKey: UserDefaultsKeys.isf)
-            let targetBG = UserDefaults.standard.string(forKey: UserDefaultsKeys.targetBG)
-            let insulinDuration = UserDefaults.standard.string(forKey: UserDefaultsKeys.insulinDuration)
-            isfStackView.textField.text = isf
-            targetBGStackView.textField.text = targetBG
-            insulinDurationStackView.textField.text = insulinDuration
-        }
+    private func setStatsTextFields(insulinDuration: Double?, isf: Double?, targetBG: Double?) {
+        guard let insulinDuration = insulinDuration, let isf = isf, let targetBG = targetBG else { return }
+        isfStackView.textField.text = String(isf)
+        targetBGStackView.textField.text = String(targetBG)
+        insulinDurationStackView.textField.text = String(insulinDuration)
     }
     
     private func setTime(with time: Int) -> String {
@@ -305,9 +308,8 @@ class ProfileController: UIViewController {
             self.presentAlert(title: "Please input all stats.")
             return
         }
-        UserDefaults.standard.setValue(isf, forKey: UserDefaultsKeys.isf)
-        UserDefaults.standard.setValue(targetBG, forKey: UserDefaultsKeys.targetBG)
-        UserDefaults.standard.setValue(insulinDuration, forKey: UserDefaultsKeys.insulinDuration)
+        let stats = statsService.createStats(Double(insulinDuration)!, Double(isf)!, Double(targetBG)!)
+        statsService.saveStats(stats)
         UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.hasSavedStats)
         self.presentAlert(title: "Stats successfully saved!")
     }
