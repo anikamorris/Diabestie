@@ -25,8 +25,7 @@ class SetCarbRatiosController: UIViewController {
     
     // MARK: Properties
     var coordinator: TabBarCoordinator!
-    let carbRatioService = CarbRatioService()
-    var allRatios: [CarbRatio] = []
+    let ratioService = RealmCarbRatioService()
     lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH a"
@@ -146,25 +145,11 @@ class SetCarbRatiosController: UIViewController {
         super.viewDidLoad()
         setUpView()
         setUpCircularSlider()
-        // testing RealmCarbRatioService
-        let ratioService = RealmCarbRatioService()
-        let realm = try! Realm()
-        ratioService.realm = realm
-        let startTime = 0
-        let endTime = 2
-        let ratio = 6
-        let carbRatio = ratioService.createRatio(startTime, endTime, ratio)
-        ratioService.saveRatio(carbRatio)
-        print(ratioService.getRatioForTime())
-        let hasRatios = UserDefaults.standard.bool(forKey: UserDefaultsKeys.hasRatios)
-        if hasRatios {
-            guard let ratios = carbRatioService.getRatios() else { return }
-            allRatios = ratios
-        }
+        setUpRatios()
     }
     
     // MARK: Methods
-    func setUpView() {
+    private func setUpView() {
         view.backgroundColor = .alertColor
         timeStackView.addArrangedSubview(startTimeLabel)
         timeStackView.addArrangedSubview(hyphenLabel)
@@ -209,7 +194,7 @@ class SetCarbRatiosController: UIViewController {
         }
     }
     
-    fileprivate func setUpCircularSlider() {
+    private func setUpCircularSlider() {
         // set up start and end points
         let dayInSeconds = 24 * 60 * 60
         circularSlider.maximumValue = CGFloat(dayInSeconds)
@@ -232,18 +217,23 @@ class SetCarbRatiosController: UIViewController {
         hoursImageView.widthAnchor.constraint(equalTo: hoursImageView.heightAnchor).isActive = true
     }
     
-    fileprivate func adjustValue(value: inout CGFloat) {
+    private func setUpRatios() {
+        let realm = try! Realm()
+        ratioService.realm = realm
+    }
+    
+    private func adjustValue(value: inout CGFloat) {
         let minutes = value / 60
         let adjustedMinutes =  ceil(minutes / 5.0) * 5
         value = adjustedMinutes * 60
     }
     
-    fileprivate func setTimeLabelsText() {
+    private func setTimeLabelsText() {
         setTimeLabel(for: startTimeLabel, with: startTime)
         setTimeLabel(for: endTimeLabel, with: endTime)
     }
     
-    fileprivate func setTimeLabel(for label: UILabel, with time: Int) {
+    private func setTimeLabel(for label: UILabel, with time: Int) {
         if time == 0  || time == 24 {
             label.text = "12AM"
         } else if time == 12 {
@@ -278,14 +268,12 @@ class SetCarbRatiosController: UIViewController {
         if start == 24 {
             start = 0
         }
-        let carbRatio = CarbRatio(startTime: start, endTime: endTime, ratio: ratioInt)
-        allRatios.append(carbRatio)
+        let carbRatio = ratioService.createRatio(start, endTime, ratioInt)
+        ratioService.saveRatio(carbRatio)
         ratioTextField.text = ""
     }
     
     @objc func saveAllRatios() {
-        carbRatioService.ratios = allRatios
-        carbRatioService.saveRatios()
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RatiosAdded"), object: nil)
         coordinator.goBackToProfileController(controller: self)
     }
