@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import HGCircularSlider
 import SnapKit
+import RealmSwift
 
 // TODO: allow user to update ratios
 //      first, check if a particular ratio is already saved
@@ -145,6 +146,16 @@ class SetCarbRatiosController: UIViewController {
         super.viewDidLoad()
         setUpView()
         setUpCircularSlider()
+        // testing RealmCarbRatioService
+        let ratioService = RealmCarbRatioService()
+        let realm = try! Realm()
+        ratioService.realm = realm
+        let startTime = 0
+        let endTime = 2
+        let ratio = 6
+        let carbRatio = ratioService.createRatio(startTime, endTime, ratio)
+        ratioService.saveRatio(carbRatio)
+        print(ratioService.getRatioForTime())
         let hasRatios = UserDefaults.standard.bool(forKey: UserDefaultsKeys.hasRatios)
         if hasRatios {
             guard let ratios = carbRatioService.getRatios() else { return }
