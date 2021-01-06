@@ -32,19 +32,16 @@ struct Answer {
     }
     
     func calculateCorrectionUnits() -> Double {
-        let targetBGStr = UserDefaults.standard.string(forKey: UserDefaultsKeys.targetBG)
-        let isfStr = UserDefaults.standard.string(forKey: UserDefaultsKeys.isf)
-        let insulinDurationStr = UserDefaults.standard.string(forKey: UserDefaultsKeys.insulinDuration)
-        guard let targetBG = Double(targetBGStr!),
-              let isf = Double(isfStr!),
-              let insulinDuration = Double(insulinDurationStr!) else {
-            print("couldn't turn userDefaults values to doubles")
-            return 0
-        }
-        let bgDifferenceDividedByISF = (currentBG - targetBG) / isf
+        let statsService = StatsService()
+        let realm = try! Realm()
+        statsService.realm = realm
+        let targetBG = statsService.getTargetBG()
+        let isf = statsService.getISF()
+        let insulinDuration = statsService.getInsulinDuration()
+        let bgDifferenceDividedByISF = (currentBG - targetBG!) / isf!
         if anyCorrections { // answered yes to first 2 questions
             let x = bgDifferenceDividedByISF
-            let y = (lastCorrectionUnits * (hoursSince / insulinDuration))
+            let y = (lastCorrectionUnits * (hoursSince / insulinDuration!))
             let correction = x - (lastCorrectionUnits - y)
             let totalCorrectionUnits = (round(correction * 10)) / 10
             return totalCorrectionUnits

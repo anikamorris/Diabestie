@@ -109,6 +109,12 @@ class CalculatorController: UIViewController {
         numberInputTextField.delegate = self
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        if UserDefaults.standard.bool(forKey: UserDefaultsKeys.hasSavedStats) == false {
+            self.presentAlert(title: "Please finish filling out your stats.", message: "Your stats must be filled out prior to accessing this page.")
+        }
+    }
+    
     // MARK: Methods
     func setUpInitialView() {
         view.backgroundColor = .backgroundColor
