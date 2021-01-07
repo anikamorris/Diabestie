@@ -25,7 +25,7 @@ class SetCarbRatiosController: UIViewController {
     
     // MARK: Properties
     var coordinator: TabBarCoordinator!
-    let ratioService = RealmCarbRatioService()
+    let ratioService = CarbRatioService()
     lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH a"

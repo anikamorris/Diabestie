@@ -18,7 +18,7 @@ struct Answer {
     var lastCorrectionUnits: Double
     
     func calculateFoodUnits() -> Double {
-        let carbRatioService = RealmCarbRatioService()
+        let carbRatioService = CarbRatioService()
         let realm = try! Realm()
         carbRatioService.realm = realm
         guard let ratio = carbRatioService.getRatioForTime() else {

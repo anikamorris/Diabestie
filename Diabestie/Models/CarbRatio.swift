@@ -13,36 +13,37 @@ enum RuntimeError: Error {
     case NoRealmSet
 }
 
-class RealmCarbRatio: Object {
+class CarbRatio: Object {
     @objc dynamic var startTime: Int = 0
     @objc dynamic var endTime: Int = 0
     @objc dynamic var ratio: Int = 0
 }
 
-class RealmCarbRatioService {
+class CarbRatioService {
     
     //MARK: Properties
     var realm: Realm?
     
     //MARK: Methods
-    public func saveRatio(_ ratio: RealmCarbRatio) {
+    public func saveRatio(_ ratio: CarbRatio) {
         guard let realm = realm else { return }
         try! realm.write {
             realm.add(ratio)
         }
+        UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.hasRatios)
     }
     
-    public func createRatio(_ startTime: Int, _ endTime: Int, _ carbRatio: Int) -> RealmCarbRatio {
-        let ratio = RealmCarbRatio()
+    public func createRatio(_ startTime: Int, _ endTime: Int, _ carbRatio: Int) -> CarbRatio {
+        let ratio = CarbRatio()
         ratio.startTime = startTime
         ratio.endTime = endTime
         ratio.ratio = carbRatio
         return ratio
     }
     
-    public func getAllRatios() throws -> Results<RealmCarbRatio> {
+    public func getAllRatios() throws -> Results<CarbRatio> {
         if realm != nil {
-            return realm!.objects(RealmCarbRatio.self)
+            return realm!.objects(CarbRatio.self)
         } else {
             throw RuntimeError.NoRealmSet
         }

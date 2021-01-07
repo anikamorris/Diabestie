@@ -16,8 +16,8 @@ class ProfileController: UIViewController {
     // MARK: Properties
     var coordinator: TabBarCoordinator!
     let statsService = StatsService()
-    let carbRatioService = RealmCarbRatioService()
-    var carbRatios: [RealmCarbRatio] = []
+    let carbRatioService = CarbRatioService()
+    var carbRatios: [CarbRatio] = []
     
     // MARK: Views
     let myStatsLabel: UILabel = {
@@ -129,7 +129,6 @@ class ProfileController: UIViewController {
         }
         // constraints for isfStackView
         isfStackView = StackViewWithLabelAndTextField(frame: .zero, label: isfLabel)
-        
         containerStackView.addArrangedSubview(isfStackView)
         isfStackView.snp.makeConstraints { (make) in
             make.width.equalToSuperview()
