@@ -194,7 +194,6 @@ class ProfileController: UIViewController {
                 }
             } catch let error {
                 print(error.localizedDescription)
-                carbRatios = []
             }
         } else {
             carbRatios = []

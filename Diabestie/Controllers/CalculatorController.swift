@@ -111,7 +111,11 @@ class CalculatorController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         if UserDefaults.standard.bool(forKey: UserDefaultsKeys.hasSavedStats) == false {
-            self.presentAlert(title: "Please finish filling out your stats.", message: "Your stats must be filled out prior to accessing this page.")
+            let action = UIAlertAction(title: "OK", style: .default) { [weak self] (action) in
+                guard let self = self else { return }
+                self.coordinator.tabBarController.selectedIndex = 1
+            }
+            self.presentAlertWithAction(title: "Please finish filling out your stats.", message: "Your stats must be filled out prior to accessing this page.", action: action)
         }
     }
     
