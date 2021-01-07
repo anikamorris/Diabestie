@@ -32,6 +32,7 @@
 		CF9C8CEB2539004F00128C21 /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9C8CEA2539004F00128C21 /* Answer.swift */; };
 		CF9C8CEE253A18C500128C21 /* TotalUnitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9C8CED253A18C500128C21 /* TotalUnitsView.swift */; };
 		CFD36FED25A65F6600C7EFAA /* Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD36FEC25A65F6600C7EFAA /* Stats.swift */; };
+		CFD36FF025A7B77900C7EFAA /* TermsOfServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD36FEF25A7B77800C7EFAA /* TermsOfServiceView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		CF9C8CEA2539004F00128C21 /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
 		CF9C8CED253A18C500128C21 /* TotalUnitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalUnitsView.swift; sourceTree = "<group>"; };
 		CFD36FEC25A65F6600C7EFAA /* Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
+		CFD36FEF25A7B77800C7EFAA /* TermsOfServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +186,7 @@
 				CF86215A2537B58100427FB7 /* CarbRatioCell.swift */,
 				CF86216B2538F5E700427FB7 /* QuestionView.swift */,
 				CF9C8CED253A18C500128C21 /* TotalUnitsView.swift */,
+				CFD36FEF25A7B77800C7EFAA /* TermsOfServiceView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF02F06A253A552500CF7258 /* UnderlinedTextField+NumberPadDoneButton.swift in Sources */,
+				CFD36FF025A7B77900C7EFAA /* TermsOfServiceView.swift in Sources */,
 				CF8621532537A85100427FB7 /* StackViewWithLabel+TextField.swift in Sources */,
 				CF4AC95924D3941200275A88 /* AppDelegate.swift in Sources */,
 				CF86215B2537B58100427FB7 /* CarbRatioCell.swift in Sources */,
