@@ -23,6 +23,7 @@ class TabBarCoordinator: NSObject, Coordinator, UITabBarControllerDelegate {
     
     // MARK: Methods
     func start() {
+        UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.showTermsAndConditions)
         let calculatorController = CalculatorController()
         calculatorController.coordinator = self
         calculatorController.tabBarItem = UITabBarItem(title: "Calculate", image: UIImage(systemName: "number.circle"), selectedImage: UIImage(systemName:  "number.circle.fill"))

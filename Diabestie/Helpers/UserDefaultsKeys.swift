@@ -15,4 +15,5 @@ struct UserDefaultsKeys {
     static let targetBG = "targetBG"
     static let insulinDuration = "insulinDuration"
     static let isf = "isf"
+    static let showTermsAndConditions = "showTermsAndConditions"
 }
