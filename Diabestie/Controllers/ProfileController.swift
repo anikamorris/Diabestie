@@ -106,12 +106,16 @@ class ProfileController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: NSNotification.Name(rawValue: "RatiosAdded"), object: nil)
         carbRatioTableView.dataSource = self
         carbRatioTableView.delegate = self
-        if UserDefaults.standard.bool(forKey: UserDefaultsKeys.showTermsAndConditions) {
-            setUpTermsOfServiceView()
-        } else {
-            setUpViews()
-            setUpServices()
-        }
+//        if UserDefaults.standard.bool(forKey: UserDefaultsKeys.showTermsAndConditions) {
+//            setUpViews()
+//            setUpServices()
+//        } else {
+//            setUpViews()
+//            setUpServices()
+//            setUpTermsOfServiceView()
+//        }
+        setUpViews()
+        setUpServices()
     }
     
     // MARK: Methods
@@ -120,7 +124,8 @@ class ProfileController: UIViewController {
         let termsOfServiceView = TermsAndConditionsView()
         view.addSubview(termsOfServiceView)
         termsOfServiceView.snp.makeConstraints { (make) in
-            make.top.left.right.bottom.equalToSuperview()
+            make.top.left.equalToSuperview().offset(15)
+            make.right.bottom.equalToSuperview().offset(-15)
         }
     }
     

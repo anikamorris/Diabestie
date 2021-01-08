@@ -33,6 +33,7 @@
 		CF9C8CEE253A18C500128C21 /* TotalUnitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9C8CED253A18C500128C21 /* TotalUnitsView.swift */; };
 		CFD36FED25A65F6600C7EFAA /* Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD36FEC25A65F6600C7EFAA /* Stats.swift */; };
 		CFD36FF025A7B77900C7EFAA /* TermsOfServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD36FEF25A7B77800C7EFAA /* TermsOfServiceView.swift */; };
+		CFD36FF325A9068700C7EFAA /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD36FF225A9068600C7EFAA /* CloseButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		CF9C8CED253A18C500128C21 /* TotalUnitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalUnitsView.swift; sourceTree = "<group>"; };
 		CFD36FEC25A65F6600C7EFAA /* Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
 		CFD36FEF25A7B77800C7EFAA /* TermsOfServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceView.swift; sourceTree = "<group>"; };
+		CFD36FF225A9068600C7EFAA /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +189,7 @@
 				CF86216B2538F5E700427FB7 /* QuestionView.swift */,
 				CF9C8CED253A18C500128C21 /* TotalUnitsView.swift */,
 				CFD36FEF25A7B77800C7EFAA /* TermsOfServiceView.swift */,
+				CFD36FF225A9068600C7EFAA /* CloseButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				CF86214225367E2400427FB7 /* TabBarCoordinator.swift in Sources */,
 				CF9C8CEE253A18C500128C21 /* TotalUnitsView.swift in Sources */,
 				CF86215E2537CD7A00427FB7 /* SetCarbRatiosController.swift in Sources */,
+				CFD36FF325A9068700C7EFAA /* CloseButton.swift in Sources */,
 				CFD36FED25A65F6600C7EFAA /* Stats.swift in Sources */,
 				CF9C8CEB2539004F00128C21 /* Answer.swift in Sources */,
 				CF8621582537B45500427FB7 /* Constants.swift in Sources */,
