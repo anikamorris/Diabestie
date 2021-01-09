@@ -106,6 +106,16 @@ class ProfileController: UIViewController {
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         return button
     }()
+    let noRatiosLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: Constants.fontName, size: 14.0)
+        label.text = "You haven't saved your carb ratios yet. Hit the 'edit' button above to get started."
+        label.textColor = .darkGray
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
+    }()
+    
     
     // MARK: Lifecycle
     override func viewDidLoad() {
@@ -203,6 +213,16 @@ class ProfileController: UIViewController {
         }
     }
     
+    private func userHasNoSavedRatios() {
+        carbRatioTableView.addSubview(noRatiosLabel)
+        noRatiosLabel.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(10)
+            make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.9)
+            make.height.equalToSuperview().multipliedBy(0.2)
+        }
+    }
+    
     private func setUpServices() {
         let ratioRealm = try! Realm()
         let statsRealm = try! Realm()
@@ -219,6 +239,7 @@ class ProfileController: UIViewController {
             }
         } else {
             carbRatios = []
+            userHasNoSavedRatios()
         }
         if UserDefaults.standard.bool(forKey: UserDefaultsKeys.hasSavedStats) {
             let insulinDuration = statsService.getInsulinDuration()
@@ -305,6 +326,7 @@ class ProfileController: UIViewController {
     }
     
     @objc func refreshTableView() {
+        noRatiosLabel.removeFromSuperview()
         do {
             let ratios = try carbRatioService.getAllRatios()
             carbRatios = []
