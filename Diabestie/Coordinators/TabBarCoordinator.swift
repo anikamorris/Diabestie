@@ -35,7 +35,10 @@ class TabBarCoordinator: NSObject, Coordinator, UITabBarControllerDelegate {
         tabBarController.viewControllers = [calculatorController, profileController]
         tabBarController.selectedViewController = profileController
     }
-    
+}
+
+// MARK: Profile flow
+extension TabBarCoordinator {
     func goToSetCarbRatiosController(controller: ProfileController) {
         let vc = SetCarbRatiosController()
         vc.coordinator = self
@@ -43,7 +46,7 @@ class TabBarCoordinator: NSObject, Coordinator, UITabBarControllerDelegate {
         controller.present(vc, animated: true, completion: nil)
     }
     
-    func goBackToProfileController(controller: SetCarbRatiosController) {
+    func goBackToProfileController(controller: UIViewController) {
         controller.dismiss(animated: true, completion: nil)
     }
 }

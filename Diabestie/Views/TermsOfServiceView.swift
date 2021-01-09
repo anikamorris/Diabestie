@@ -90,34 +90,19 @@ class TermsAndConditionsView: UIView {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(40)
         }
+        self.addSubview(closeButton)
+        closeButton.snp.makeConstraints {
+            $0.centerY.equalTo(termsOfServiceLabel.snp_centerYWithinMargins)
+            $0.width.height.equalTo(25)
+            $0.trailing.equalToSuperview().offset(-15)
+        }
         self.addSubview(termsAndConditionsTextView)
         termsAndConditionsTextView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(termsOfServiceLabel.snp_bottomMargin).offset(5)
-            $0.height.equalToSuperview().multipliedBy(0.75)
+            $0.height.equalToSuperview().multipliedBy(0.85)
             $0.width.equalToSuperview().multipliedBy(0.9)
         }
-        self.addSubview(buttonStackView)
-        buttonStackView.snp.makeConstraints {
-            $0.top.equalTo(termsAndConditionsTextView.snp_bottomMargin).offset(25)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(30)
-            $0.width.equalToSuperview().multipliedBy(0.8)
-        }
-        buttonStackView.addArrangedSubview(closeButton)
-        buttonStackView.addArrangedSubview(doNotShowAgainStackView)
-//        self.addSubview(doNotShowAgainStackView)
-//        doNotShowAgainStackView.snp.makeConstraints {
-//            $0.top.equalTo(termsAndConditionsTextView.snp_bottomMargin).offset(10)
-//            $0.centerX.equalToSuperview()
-//            $0.height.equalTo(35)
-//            $0.width.equalToSuperview().multipliedBy(0.5)
-//        }
-        doNotShowAgainStackView.addArrangedSubview(doNotShowAgainLabel)
-        doNotShowAgainStackView.addArrangedSubview(checkBoxButton)
-//        checkBoxButton.snp.makeConstraints {
-//            $0.leading.equalTo(doNotShowAgainLabel.snp_trailingMargin).offset(5)
-//        }
     }
     
     //MARK: Helpers

@@ -28,6 +28,13 @@ class ProfileController: UIViewController {
         label.font = UIFont(name: Constants.fontName, size: 30.0)
         return label
     }()
+    let infoButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "info.circle.fill"), for: .normal)
+        button.tintColor = .darkGray
+        button.addTarget(self, action: #selector(showTermsOfService), for: .touchUpInside)
+        return button
+    }()
     let isfLabel: UILabel = {
         let label = UILabel()
         label.text = "ISF"
@@ -106,21 +113,12 @@ class ProfileController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: NSNotification.Name(rawValue: "RatiosAdded"), object: nil)
         carbRatioTableView.dataSource = self
         carbRatioTableView.delegate = self
-//        if UserDefaults.standard.bool(forKey: UserDefaultsKeys.showTermsAndConditions) {
-//            setUpViews()
-//            setUpServices()
-//        } else {
-//            setUpViews()
-//            setUpServices()
-//            setUpTermsOfServiceView()
-//        }
         setUpViews()
         setUpServices()
     }
     
     // MARK: Methods
     private func setUpTermsOfServiceView() {
-        view.backgroundColor = .backgroundColor
         let termsOfServiceView = TermsAndConditionsView()
         view.addSubview(termsOfServiceView)
         termsOfServiceView.snp.makeConstraints { (make) in
@@ -137,6 +135,12 @@ class ProfileController: UIViewController {
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.7)
             make.height.equalTo(60)
+        }
+        view.addSubview(infoButton)
+        infoButton.snp.makeConstraints { (make) in
+            make.centerY.equalTo(myStatsLabel.snp_centerYWithinMargins)
+            make.height.width.equalTo(20)
+            make.trailing.equalToSuperview().offset(-15)
         }
         view.addSubview(containerStackView)
         containerStackView.snp.makeConstraints { (make) in
@@ -241,6 +245,10 @@ class ProfileController: UIViewController {
         } else {
             return "\(time % 12)PM"
         }
+    }
+    
+    @objc func showTermsOfService() {
+        setUpTermsOfServiceView()
     }
     
     @objc func isfDoneButtonTapped(textField: UITextField) {
