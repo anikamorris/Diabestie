@@ -33,41 +33,10 @@ class TermsAndConditionsView: UIView {
         textView.backgroundColor = .backgroundColor
         return textView
     }()
-    let doNotShowAgainLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: Constants.fontName, size: 15)
-        label.textColor = .alertColor
-        label.text = "Do not show again"
-        return label
-    }()
-    let checkBoxButton: UIButton = {
-        let button = UIButton()
-        let alertColor = UIColor.alertColor
-        button.layer.cornerRadius = 5
-        button.layer.borderColor = alertColor.cgColor
-        button.layer.borderWidth = 1
-        button.backgroundColor = .clear
-        button.addTarget(self, action: #selector(doNotShowAgainChecked), for: .touchUpInside)
-        return button
-    }()
-    let doNotShowAgainStackView: UIStackView = {
-        let sv = UIStackView()
-        sv.axis = .horizontal
-        sv.distribution = .fillProportionally
-        sv.alignment = .fill
-        return sv
-    }()
     let closeButton: CloseButton = {
         let button = CloseButton(frame: .zero, title: "X")
         button.addTarget(self, action: #selector(closePopup), for: .touchUpInside)
         return button
-    }()
-    let buttonStackView: UIStackView = {
-        let sv = UIStackView()
-        sv.axis = .horizontal
-        sv.distribution = .equalSpacing
-        sv.alignment = .center
-        return sv
     }()
     
     //MARK: Init
@@ -106,18 +75,6 @@ class TermsAndConditionsView: UIView {
     }
     
     //MARK: Helpers
-    @objc private func doNotShowAgainChecked() {
-        if !status {
-            UserDefaults.standard.set(true, forKey: UserDefaultsKeys.showTermsAndConditions)
-            checkBoxButton.backgroundColor = .alertColor
-            status = true
-        } else {
-            UserDefaults.standard.set(false, forKey: UserDefaultsKeys.showTermsAndConditions)
-            checkBoxButton.backgroundColor = .clear
-            status = false
-        }
-    }
-    
     @objc private func closePopup() {
         self.removeFromSuperview()
     }
